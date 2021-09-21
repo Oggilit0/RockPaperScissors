@@ -12,9 +12,7 @@ package com.rockpaperscissors;
 public class Opponent {
     private String opponentOutcome;
 
-
     public Opponent(){
-
     }
 
     /**
