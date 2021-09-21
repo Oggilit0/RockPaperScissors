@@ -14,7 +14,6 @@ public class Opponent {
 
 
     public Opponent(){
-        System.out.println("Test github");
     }
 
     /**
