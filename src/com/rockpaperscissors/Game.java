@@ -71,7 +71,6 @@ public class Game {
         System.out.println("Skriv in ditt namn: ");
         String playerName = console.nextLine();
         currentPlayer = new Player(playerName);
-        allPlayers.add(currentPlayer);
     }
 
     public void playerSelectionMenu(){
@@ -97,6 +96,7 @@ public class Game {
                 currentPlayer = new Player("Scilla");
                 break;
             case 4:
+                createNewPlayer();
                 break;
             default:
                 System.out.println("Där bidde det fel, försök igen");
@@ -117,8 +117,6 @@ public class Game {
     public void mainMenu(){
 
         System.out.println("================\n    MainMenu\n================\n1.  New Game\n2.  Choose player\n3.  Match histoy\n4.  Quit");
-
-
         int menuChoice=0;
 
         try {
@@ -130,8 +128,27 @@ public class Game {
         switch(menuChoice){
             case 1:
                 if(currentPlayer == null){ // Sätta den här nån annanstans =?
-                    createNewPlayer();
-                    newMatch();
+                    System.out.println("Ingen aktiv spelare, vill du skapa en ny spelare?");
+                    System.out.println("1.  Ja, jag vill skapa en ny\n2. Jag vill välja befintlig spelare\n3.  Nej, återgå till main menu");
+                    try {
+                        menuChoice = Integer.parseInt(console.nextLine());
+                    }
+                    catch(Exception e){
+                    }
+
+                    switch (menuChoice){
+                        case 1:
+                            createNewPlayer();
+                            break;
+                        case 2:
+                            playerSelectionMenu();
+                            break;
+                        case 3:
+                            mainMenu();
+                            break;
+                        default:
+                            System.out.println("Där bidde det fel!");
+                    }
                 }else{
                     newMatch();
                 }

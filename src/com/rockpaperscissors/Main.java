@@ -37,7 +37,7 @@ public class Main {
 
 
         Game newGame = new Game();
-        newGame.createNewOpponent();
+        newGame.createNewOpponent(); // Lägg in i game
         newGame.mainMenu();
 
 
