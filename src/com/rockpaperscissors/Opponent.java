@@ -13,29 +13,28 @@ public class Opponent {
     private String opponentOutcome;
 
     public Opponent(){
-    }
 
+    }
     /**
-     * Method to return one of following elements with equal chance
-     * @return Rock, Paper or Scissors
+     * Method to randomize Opponent outcome
      */
     public void OpponentOutcome(){
         int randNr = ( int ) (Math.random() * 3 ) + 1;
 
         switch( randNr ){
             case 1:
-                opponentOutcome = "Rock";
+                this.opponentOutcome = "Rock";
                 break;
             case 2:
-                opponentOutcome = "Paper";
+                this.opponentOutcome = "Paper";
                 break;
             case 3:
-                opponentOutcome = "Scissors";
+                this.opponentOutcome = "Scissors";
                 break;
         }
     }
 
     public String getOpponentOutcome() {
-        return opponentOutcome;
+        return this.opponentOutcome;
     }
 }

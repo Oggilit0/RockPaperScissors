@@ -12,12 +12,12 @@ public class Player {
         matchHistory = new ArrayList<>();
     }
 
-    public ArrayList<Match> getMatchHistory() {
-        return matchHistory;
-    }
-
     public void setMatchHistory(Match matchHistory) {
         this.matchHistory.add(matchHistory);
+    }
+
+    public ArrayList<Match> getMatchHistory() {
+        return matchHistory;
     }
 
     public String getName() {

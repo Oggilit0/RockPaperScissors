@@ -63,7 +63,6 @@ public class Game {
                     break;
             }
         }
-
         currentPlayer.setMatchHistory(this.currentMatch);
     }
 
@@ -75,15 +74,7 @@ public class Game {
 
     public void playerSelectionMenu(){
         System.out.println("================\n    MainMenu\n================\n1.  Rocky\n2.  Papena\n3.  Scilla\n4.  Create new player"); // skapa dynamisk system out för att lägga till spelare
-
-
-        int menuChoice=0;
-
-        try {
-            menuChoice = Integer.parseInt(console.nextLine());
-        }
-        catch(Exception e){
-        }
+        int menuChoice = tryCatch();
 
         switch(menuChoice){
             case 1:
@@ -117,13 +108,7 @@ public class Game {
     public void mainMenu(){
 
         System.out.println("================\n    MainMenu\n================\n1.  New Game\n2.  Choose player\n3.  Match histoy\n4.  Quit");
-        int menuChoice=0;
-
-        try {
-            menuChoice = Integer.parseInt(console.nextLine());
-        }
-        catch(Exception e){
-        }
+        int menuChoice = tryCatch();
 
         switch(menuChoice){
             case 1:
@@ -168,8 +153,7 @@ public class Game {
         }
     }
 
-    public void playerChoiceMenu(){
-        System.out.println("================\n"+ currentPlayer.getName() +"'s Choice\n================\n1.  Rock\n2.  Paper\n3.  Scissors");
+    public int tryCatch(){
         int menuChoice = 0;
 
         try {
@@ -177,6 +161,12 @@ public class Game {
         }
         catch(Exception e){
         }
+        return menuChoice;
+    }
+
+    public void playerChoiceMenu(){
+        System.out.println("================\n"+ currentPlayer.getName() +"'s Choice\n================\n1.  Rock\n2.  Paper\n3.  Scissors");
+        int menuChoice = tryCatch();
 
         switch(menuChoice){
             case 1:
@@ -196,13 +186,7 @@ public class Game {
 
     public void afterMatchMenu(){
         System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n1.  Main Menu\n2.  New Match\n3.  Quit");
-        int menuChoice = 0;
-
-        try {
-            menuChoice = Integer.parseInt(console.nextLine());
-        }
-        catch(Exception e){
-        }
+        int menuChoice = tryCatch();
 
         switch(menuChoice){
             case 1:
@@ -222,6 +206,13 @@ public class Game {
     }
 
     public void matchHistoryMenu(){
+
+        System.out.println("1   Show history for current player");
+        System.out.println("2   Show history for all players");
+
+//        switch(){
+//
+//        }
 
         if(currentPlayer == null){
 
@@ -243,13 +234,7 @@ public class Game {
         }
 
         System.out.println("1.  Main Menu\n2.  Quit");
-        int menuChoice = 0;
-
-        try {
-            menuChoice = Integer.parseInt(console.nextLine());
-        }
-        catch(Exception e){
-        }
+        int menuChoice = tryCatch();
 
         switch(menuChoice){
             case 1:
