@@ -13,9 +13,9 @@ import java.util.Scanner;
 public class Game {
     private Scanner console;
     private String playerChoice;
-    private Player currentPlayer;
-    private Opponent currentOpponent;
+    //private Player currentPlayer;
     private Match currentMatch;
+    private Player currentPlayer;
     private ArrayList<Player> allPlayers = new ArrayList<>();
 
     public Game(){
@@ -23,83 +23,77 @@ public class Game {
     }
 
     public void newMatch(){
-        currentMatch = new Match("n/a");
+        this.currentMatch = new Match("n/a");
+        this.currentMatch.createNewOpponent();
         playerChoiceMenu();
-        currentOpponent.OpponentOutcome();
-        System.out.println(currentPlayer.getName()+ ": "+playerChoice);
-        System.out.println("Opponent : "+currentOpponent.getOpponentOutcome());
+        this.currentMatch.getCurrentOpponent().OpponentOutcome();
+        System.out.println(this.currentPlayer.getName()+ ": "+this.playerChoice);
+        System.out.println("Opponent : "+this.currentMatch.getCurrentOpponent().getOpponentOutcome());
         outcome();
         afterMatchMenu();
     }
 
-
     public void outcome(){
-        if (playerChoice.equals(currentOpponent.getOpponentOutcome())){
-            currentMatch.setResult("Draw!");
+        if (this.playerChoice.equals(this.currentMatch.getCurrentOpponent().getOpponentOutcome())){
+            this.currentMatch.setResult("Draw!");
         } else{
-            switch(playerChoice){
+            switch(this.playerChoice){
                 case "Rock":
-                    if(currentOpponent.getOpponentOutcome().equals("Scissors")){
-                        currentMatch.setResult("Won!");
+                    if(this.currentMatch.getCurrentOpponent().getOpponentOutcome().equals("Scissors")){
+                        this.currentMatch.setResult("Won!");
                     }else{
-                        currentMatch.setResult("Lost!");
+                        this.currentMatch.setResult("Lost!");
                     }
                     break;
 
                 case "Paper":
-                    if(currentOpponent.getOpponentOutcome().equals("Rock")){
-                        currentMatch.setResult("Won!");
+                    if(this.currentMatch.getCurrentOpponent().getOpponentOutcome().equals("Rock")){
+                        this.currentMatch.setResult("Won!");
                     }else{
-                        currentMatch.setResult("Lost!");
+                        this.currentMatch.setResult("Lost!");
                     }
                     break;
 
                 case "Scissors":
-                    if(currentOpponent.getOpponentOutcome().equals("Paper")){
-                        currentMatch.setResult("Won!");
+                    if(this.currentMatch.getCurrentOpponent().getOpponentOutcome().equals("Paper")){
+                        this.currentMatch.setResult("Won!");
                     }else{
-                        currentMatch.setResult("Lost!");
+                        this.currentMatch.setResult("Lost!");
                     }
                     break;
             }
         }
-        currentPlayer.setMatchHistory(this.currentMatch);
+        this.currentPlayer.setMatchHistory(this.currentMatch);
     }
 
     public void createNewPlayer(){
         System.out.println("Skriv in ditt namn: ");
         String playerName = console.nextLine();
-        currentPlayer = new Player(playerName);
+        //this.currentPlayer = new Player(playerName);
+    }
+
+    /**
+     * Generates 3 CPU opponents with a random name from array of predetermined amount of names.
+     */
+    public void randomGeneratedOpponents(){
+        String[] cpuNames = {"Lisa","Riley","Keon","Uriel","Allan","Doyle","Veronica","Tiana","Aubree","Nathaniel","Robert","Abril","Sandra","Miranda","Fatima","Carter","Adam","Douglas","Taylor","Jonathan"};
+        for(int i = 0; i<3; i++){
+            int randNr = (int) (Math.random() * 19);
+            this.allPlayers.add(new Player(cpuNames[randNr]));
+        }
     }
 
     public void playerSelectionMenu(){
         System.out.println("================\n    MainMenu\n================\n1.  Rocky\n2.  Papena\n3.  Scilla\n4.  Create new player"); // skapa dynamisk system out för att lägga till spelare
-        int menuChoice = tryCatch();
+        int menuChoice = tryCatchMenus();
 
-        switch(menuChoice){
-            case 1:
-                currentPlayer = new Player("Rocky");
-                break;
-            case 2:
-                currentPlayer = new Player("Papena");
-                break;
-            case 3:
-                currentPlayer = new Player("Scilla");
-                break;
-            case 4:
-                createNewPlayer();
-                break;
-            default:
-                System.out.println("Där bidde det fel, försök igen");
-                playerSelectionMenu();
-        }
-        allPlayers.add(currentPlayer);
+        allPlayers.add(this.currentPlayer);
         mainMenu();
     }
 
-    public void createNewOpponent(){
-        this.currentOpponent = new Opponent();
-    }
+//    public void createNewOpponent(){
+//        this.currentOpponent = new Opponent();
+//    }
 
     public void gameOver(){
         System.out.println("GAME OVER");
@@ -108,18 +102,14 @@ public class Game {
     public void mainMenu(){
 
         System.out.println("================\n    MainMenu\n================\n1.  New Game\n2.  Choose player\n3.  Match histoy\n4.  Quit");
-        int menuChoice = tryCatch();
+        int menuChoice = tryCatchMenus();
 
         switch(menuChoice){
             case 1:
-                if(currentPlayer == null){ // Sätta den här nån annanstans =?
-                    System.out.println("Ingen aktiv spelare, vill du skapa en ny spelare?");
-                    System.out.println("1.  Ja, jag vill skapa en ny\n2. Jag vill välja befintlig spelare\n3.  Nej, återgå till main menu");
-                    try {
-                        menuChoice = Integer.parseInt(console.nextLine());
-                    }
-                    catch(Exception e){
-                    }
+                if(currentPlayer == null){
+                    System.out.println("Du har ingen spelare");
+                    System.out.println("1.  Skapa ny spelare \n2. välj befintlig spelare\n3.  återgå till main menu");
+                    menuChoice = tryCatchMenus();
 
                     switch (menuChoice){
                         case 1:
@@ -134,6 +124,7 @@ public class Game {
                         default:
                             System.out.println("Där bidde det fel!");
                     }
+                    mainMenu();
                 }else{
                     newMatch();
                 }
@@ -153,11 +144,11 @@ public class Game {
         }
     }
 
-    public int tryCatch(){
+    public int tryCatchMenus(){
         int menuChoice = 0;
 
         try {
-            menuChoice = Integer.parseInt(console.nextLine());
+            menuChoice = Integer.parseInt(this.console.nextLine());
         }
         catch(Exception e){
         }
@@ -165,18 +156,18 @@ public class Game {
     }
 
     public void playerChoiceMenu(){
-        System.out.println("================\n"+ currentPlayer.getName() +"'s Choice\n================\n1.  Rock\n2.  Paper\n3.  Scissors");
-        int menuChoice = tryCatch();
+        System.out.println("================\n"+ this.currentPlayer.getName() +"'s Choice\n================\n1.  Rock\n2.  Paper\n3.  Scissors");
+        int menuChoice = tryCatchMenus();
 
         switch(menuChoice){
             case 1:
-                playerChoice = "Rock";
+                this.playerChoice = "Rock";
                 break;
             case 2:
-                playerChoice = "Paper";
+                this.playerChoice = "Paper";
                 break;
             case 3:
-                playerChoice = "Scissors";
+                this.playerChoice = "Scissors";
                 break;
             default:
                 System.out.println("Där bidde det fel, försök igen");
@@ -185,8 +176,8 @@ public class Game {
     }
 
     public void afterMatchMenu(){
-        System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n1.  Main Menu\n2.  New Match\n3.  Quit");
-        int menuChoice = tryCatch();
+        System.out.println("================\n     " + this.currentMatch.getResult()+ "\n================\n1.  Main Menu\n2.  New Match\n3.  Quit");
+        int menuChoice = tryCatchMenus();
 
         switch(menuChoice){
             case 1:
@@ -214,13 +205,13 @@ public class Game {
 //
 //        }
 
-        if(currentPlayer == null){
+        if(this.currentPlayer == null){
 
         }else{
             int i =0;
-            for(Player p : allPlayers){
+            for(Player p : this.allPlayers){
                 System.out.println("Namn: "+p.getName());
-                for(Match m : allPlayers.get(i).getMatchHistory()){
+                for(Match m : this.allPlayers.get(i).getMatchHistory()){
                     System.out.println("<Match id> [" + m.getMatchId() + "] : " + m.getResult());
                 }
                 System.out.println("----------------");
@@ -234,7 +225,7 @@ public class Game {
         }
 
         System.out.println("1.  Main Menu\n2.  Quit");
-        int menuChoice = tryCatch();
+        int menuChoice = tryCatchMenus();
 
         switch(menuChoice){
             case 1:

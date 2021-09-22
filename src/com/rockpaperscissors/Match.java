@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class Match {
     private String matchId;
     private String result;
+    private Opponent currentOpponent;
 
     public Match(String result){
         this.result = result;
@@ -21,6 +22,10 @@ public class Match {
         this.matchId = matchIdTime.format(timeFormat);
     }
 
+    public void createNewOpponent(){
+        currentOpponent = new Opponent();
+    }
+
     public void setResult(String result) {
         this.result = result;
     }
@@ -31,6 +36,10 @@ public class Match {
 
     public String getMatchId() {
         return this.matchId;
+    }
+
+    public Opponent getCurrentOpponent() {
+        return currentOpponent;
     }
 }
 
