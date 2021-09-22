@@ -4,6 +4,10 @@ package com.rockpaperscissors;
 // Döp om till nåt mer passande för att ha med menyer i classen ? typ program ? Döp om till game
 // this på allt också
 
+
+// Skapa player selection och lagring
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -12,6 +16,7 @@ public class Game {
     private Player currentPlayer;
     private Opponent currentOpponent;
     private Match currentMatch;
+    private ArrayList<Player> allPlayers = new ArrayList<>();
 
     public Game(){
         this.console = new Scanner(System.in);
@@ -20,8 +25,8 @@ public class Game {
     public void newMatch(){
         currentMatch = new Match("n/a");
         playerChoiceMenu();
-        System.out.println("Player: "+playerChoice);
         currentOpponent.OpponentOutcome();
+        System.out.println(currentPlayer.getName()+ ": "+playerChoice);
         System.out.println("Opponent : "+currentOpponent.getOpponentOutcome());
         outcome();
         afterMatchMenu();
@@ -66,6 +71,39 @@ public class Game {
         System.out.println("Skriv in ditt namn: ");
         String playerName = console.nextLine();
         currentPlayer = new Player(playerName);
+        allPlayers.add(currentPlayer);
+    }
+
+    public void playerSelectionMenu(){
+        System.out.println("================\n    MainMenu\n================\n1.  Rocky\n2.  Papena\n3.  Scilla\n4.  Create new player"); // skapa dynamisk system out för att lägga till spelare
+
+
+        int menuChoice=0;
+
+        try {
+            menuChoice = Integer.parseInt(console.nextLine());
+        }
+        catch(Exception e){
+        }
+
+        switch(menuChoice){
+            case 1:
+                currentPlayer = new Player("Rocky");
+                break;
+            case 2:
+                currentPlayer = new Player("Papena");
+                break;
+            case 3:
+                currentPlayer = new Player("Scilla");
+                break;
+            case 4:
+                break;
+            default:
+                System.out.println("Där bidde det fel, försök igen");
+                playerSelectionMenu();
+        }
+        allPlayers.add(currentPlayer);
+        mainMenu();
     }
 
     public void createNewOpponent(){
@@ -78,7 +116,7 @@ public class Game {
 
     public void mainMenu(){
 
-        System.out.println("================\n    MainMenu\n================\n1.  New Game\n2.  Match histoy\n3.  Quit");
+        System.out.println("================\n    MainMenu\n================\n1.  New Game\n2.  Choose player\n3.  Match histoy\n4.  Quit");
 
 
         int menuChoice=0;
@@ -88,7 +126,7 @@ public class Game {
         }
         catch(Exception e){
         }
-////  HISTORY NÄR MAN STARTAR SPELET FUNGERAR INTE NU
+
         switch(menuChoice){
             case 1:
                 if(currentPlayer == null){ // Sätta den här nån annanstans =?
@@ -99,9 +137,12 @@ public class Game {
                 }
                 break;
             case 2:
-                matchHistoryMenu();
+                playerSelectionMenu();
                 break;
             case 3:
+                matchHistoryMenu();
+                break;
+            case 4:
                 gameOver();
                 break;
             default:
@@ -111,7 +152,7 @@ public class Game {
     }
 
     public void playerChoiceMenu(){
-        System.out.println("================\n Players Choice\n================\n1.  Rock\n2.  Paper\n3.  Scissors");
+        System.out.println("================\n"+ currentPlayer.getName() +"'s Choice\n================\n1.  Rock\n2.  Paper\n3.  Scissors");
         int menuChoice = 0;
 
         try {
@@ -137,8 +178,6 @@ public class Game {
     }
 
     public void afterMatchMenu(){
-//        System.out.println("Resultat: " + currentMatch.getResult());
-//        System.out.println("1. Huvudmeny     2. Kör igen     3. Avsluta spelet\n"); // kom ihåg <---------\n
         System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n1.  Main Menu\n2.  New Match\n3.  Quit");
         int menuChoice = 0;
 
@@ -170,10 +209,20 @@ public class Game {
         if(currentPlayer == null){
 
         }else{
-            for(Match a : currentPlayer.getMatchHistory()){
-                System.out.println("<Match id> [" + a.getMatchId() + "] : " + a.getResult());
+            int i =0;
+            for(Player p : allPlayers){
+                System.out.println("Namn: "+p.getName());
+                for(Match m : allPlayers.get(i).getMatchHistory()){
+                    System.out.println("<Match id> [" + m.getMatchId() + "] : " + m.getResult());
+                }
+                System.out.println("----------------");
+                i++;
             }
-            System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n");
+
+//            for(Match a : currentPlayer.getMatchHistory()){
+//                System.out.println("<Match id> [" + a.getMatchId() + "] : " + a.getResult());
+//            }
+//            System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n");
         }
 
         System.out.println("1.  Main Menu\n2.  Quit");
