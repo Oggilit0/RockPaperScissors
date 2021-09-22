@@ -20,6 +20,7 @@ public class Game {
 
     public Game(){
         this.console = new Scanner(System.in);
+        randomGeneratedPlayers();
     }
 
     public void newMatch(){
@@ -69,13 +70,13 @@ public class Game {
     public void createNewPlayer(){
         System.out.println("Skriv in ditt namn: ");
         String playerName = console.nextLine();
-        //this.currentPlayer = new Player(playerName);
+        allPlayers.add(new Player(playerName));
     }
 
     /**
-     * Generates 3 CPU opponents with a random name from array of predetermined amount of names.
+     * Generates 3 predetermined players with a random name from array.
      */
-    public void randomGeneratedOpponents(){
+    public void randomGeneratedPlayers(){
         String[] cpuNames = {"Lisa","Riley","Keon","Uriel","Allan","Doyle","Veronica","Tiana","Aubree","Nathaniel","Robert","Abril","Sandra","Miranda","Fatima","Carter","Adam","Douglas","Taylor","Jonathan"};
         for(int i = 0; i<3; i++){
             int randNr = (int) (Math.random() * 19);
@@ -83,17 +84,32 @@ public class Game {
         }
     }
 
-    public void playerSelectionMenu(){
-        System.out.println("================\n    MainMenu\n================\n1.  Rocky\n2.  Papena\n3.  Scilla\n4.  Create new player"); // skapa dynamisk system out för att lägga till spelare
+    public void playerSelectionMenu(){  // Try catch för arraysen!
+        int playerSelectCounter = 0;
+
+        for(Player p : allPlayers){
+            System.out.println((playerSelectCounter+1) + ".   " + p.getName());
+            playerSelectCounter++;
+        }
+        System.out.println(playerSelectCounter+1 + ".   Create new character");
+        System.out.println(playerSelectCounter+2 + ".   Return to main menu");
+        System.out.println(playerSelectCounter+3 + ".   Delete player");
         int menuChoice = tryCatchMenus();
 
-        allPlayers.add(this.currentPlayer);
-        mainMenu();
+        if(menuChoice == (allPlayers.size()+1)){
+            createNewPlayer();
+        }else if (menuChoice == (allPlayers.size()+2)){
+            mainMenu();
+        }else if(menuChoice == (allPlayers.size())+3){
+            System.out.println("Which player to remove?");
+            menuChoice = tryCatchMenus();
+            allPlayers.remove(menuChoice-1);
+            playerSelectionMenu();
+        }
+        currentPlayer = this.allPlayers.get(menuChoice-1);
+        System.out.println(currentPlayer.getName());
+        playerSelectionMenu();
     }
-
-//    public void createNewOpponent(){
-//        this.currentOpponent = new Opponent();
-//    }
 
     public void gameOver(){
         System.out.println("GAME OVER");

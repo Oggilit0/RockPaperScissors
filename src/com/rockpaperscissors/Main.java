@@ -37,7 +37,6 @@ public class Main {
 
 
         Game newGame = new Game();
-        newGame.randomGeneratedOpponents();
         newGame.mainMenu();
 
     }
