@@ -78,7 +78,7 @@ public class Game {
 
     public void mainMenu(){
 
-        System.out.println("MainMenu\n1.  New Game\n2.  Match histoy\n3.  Quit");
+        System.out.println("================\n    MainMenu\n================\n1.  New Game\n2.  Match histoy\n3.  Quit");
 
 
         int menuChoice=0;
@@ -88,10 +88,10 @@ public class Game {
         }
         catch(Exception e){
         }
-
+////  HISTORY NÄR MAN STARTAR SPELET FUNGERAR INTE NU
         switch(menuChoice){
             case 1:
-                if(currentPlayer == null){
+                if(currentPlayer == null){ // Sätta den här nån annanstans =?
                     createNewPlayer();
                     newMatch();
                 }else{
@@ -99,9 +99,7 @@ public class Game {
                 }
                 break;
             case 2:
-                for(Match a : currentPlayer.getMatchHistory()){
-                    System.out.println("<Match id> [" + a.getMatchId() + "] : " + a.getResult());
-                }
+                matchHistoryMenu();
                 break;
             case 3:
                 gameOver();
@@ -113,8 +111,7 @@ public class Game {
     }
 
     public void playerChoiceMenu(){
-        System.out.println("Vad väljer du?");
-        System.out.println("1. Rock     2. Paper     3. Scissors\n"); // kom ihåg <---------\n
+        System.out.println("================\n Players Choice\n================\n1.  Rock\n2.  Paper\n3.  Scissors");
         int menuChoice = 0;
 
         try {
@@ -140,8 +137,9 @@ public class Game {
     }
 
     public void afterMatchMenu(){
-        System.out.println("Resultat: " + currentMatch.getResult());
-        System.out.println("1. Huvudmeny     2. Kör igen     3. Avsluta spelet\n"); // kom ihåg <---------\n
+//        System.out.println("Resultat: " + currentMatch.getResult());
+//        System.out.println("1. Huvudmeny     2. Kör igen     3. Avsluta spelet\n"); // kom ihåg <---------\n
+        System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n1.  Main Menu\n2.  New Match\n3.  Quit");
         int menuChoice = 0;
 
         try {
@@ -166,5 +164,41 @@ public class Game {
         }
 
     }
+
+    public void matchHistoryMenu(){
+
+        if(currentPlayer == null){
+
+        }else{
+            for(Match a : currentPlayer.getMatchHistory()){
+                System.out.println("<Match id> [" + a.getMatchId() + "] : " + a.getResult());
+            }
+            System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n");
+        }
+
+        System.out.println("1.  Main Menu\n2.  Quit");
+        int menuChoice = 0;
+
+        try {
+            menuChoice = Integer.parseInt(console.nextLine());
+        }
+        catch(Exception e){
+        }
+
+        switch(menuChoice){
+            case 1:
+                mainMenu();
+                break;
+            case 2:
+                gameOver();
+                break;
+            default:
+                System.out.println("Där bidde det fel, försök igen");
+                afterMatchMenu();
+        }
+
+    }
+
+
 
 }
