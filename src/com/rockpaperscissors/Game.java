@@ -4,7 +4,7 @@ package com.rockpaperscissors;
 // Döp om till nåt mer passande för att ha med menyer i classen ? typ program ? Döp om till game
 // this på allt också
 // Fixa score board så att inte oanvända spelare syns
-
+// Kolla om break behövs till varje switch
 
 
 // Skapa player selection och lagring
@@ -273,35 +273,88 @@ public class Game {
     }
 
     public void matchHistoryMenu(){
-
+        menuDesign("Match History");
         System.out.println("1   Show history for current player");
         System.out.println("2   Show history for all players");
+        System.out.println("3   Main menu");
+        int menuChoice = tryCatchMenus();
+
+
+
+            switch(menuChoice){
+                case 1:
+                    if(this.currentPlayer == null){
+                        System.out.println("No active player");
+                        matchHistoryMenu();
+                    }
+
+                    String space = "";
+                    System.out.println("Name: "+currentPlayer.getName());
+                    System.out.println("┌──────────────────────────────┐");
+                    System.out.println("│ Match id              Result │");
+                    System.out.println("├──────────────────────────────┤");
+                    for(Match m : currentPlayer.getMatchHistory()){
+                        if(m.getResult().length() == 4){
+                            space += " ";
+                        }
+                        System.out.println("│ [" + m.getMatchId() + "] │ " + m.getResult()+ space +"  │");
+                        space = "";
+                    }
+                    System.out.println("└──────────────────────────────┘");
+
+                    break;
+                case 2:
+                    if(this.currentPlayer == null){
+                        System.out.println("No active player");
+                        matchHistoryMenu();
+                    }
+
+                    int i =0;
+                    for(Player p : this.allPlayers){
+                        System.out.println("Namn: "+p.getName());
+                        for(Match m : this.allPlayers.get(i).getMatchHistory()){
+                            System.out.println("<Match id> [" + m.getMatchId() + "] : " + m.getResult());
+                        }
+                        System.out.println("----------------");
+                        i++;
+                    }
+                    break;
+                case 3:
+                    mainMenu();
+                    break;
+                default:
+                    System.out.println("Nej");
+            }
+
+
+
+
 
 //        switch(){
 //
 //        }
 
-        if(this.currentPlayer == null){
-
-        }else{
-            int i =0;
-            for(Player p : this.allPlayers){
-                System.out.println("Namn: "+p.getName());
-                for(Match m : this.allPlayers.get(i).getMatchHistory()){
-                    System.out.println("<Match id> [" + m.getMatchId() + "] : " + m.getResult());
-                }
-                System.out.println("----------------");
-                i++;
-            }
-
-//            for(Match a : currentPlayer.getMatchHistory()){
-//                System.out.println("<Match id> [" + a.getMatchId() + "] : " + a.getResult());
+//        if(this.currentPlayer == null){
+//
+//        }else{
+//            int i =0;
+//            for(Player p : this.allPlayers){
+//                System.out.println("Namn: "+p.getName());
+//                for(Match m : this.allPlayers.get(i).getMatchHistory()){
+//                    System.out.println("<Match id> [" + m.getMatchId() + "] : " + m.getResult());
+//                }
+//                System.out.println("----------------");
+//                i++;
 //            }
-//            System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n");
-        }
+//
+////            for(Match a : currentPlayer.getMatchHistory()){
+////                System.out.println("<Match id> [" + a.getMatchId() + "] : " + a.getResult());
+////            }
+////            System.out.println("================\n     " + currentMatch.getResult()+ "\n================\n");
+//        }
 
         System.out.println("1.  Main Menu\n2.  Quit");
-        int menuChoice = tryCatchMenus();
+        menuChoice = tryCatchMenus();
 
         switch(menuChoice){
             case 1:
