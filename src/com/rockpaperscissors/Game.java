@@ -9,6 +9,7 @@ package com.rockpaperscissors;
 
 // Skapa player selection och lagring
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public class Game {
     private ArrayList<Player> allPlayers = new ArrayList<>();
 
     public Game(){
-        this.console = new Scanner(System.in);
+        //this.console = new Scanner(System.in);
         randomGeneratedPlayers();
     }
 
@@ -84,15 +85,18 @@ public class Game {
      * Generates 3 predetermined players with a random name from array.
      */
     public void randomGeneratedPlayers(){
-        String[] cpuNames = {"Lisa","Riley","Keon","Uriel","Allan","Doyle","Veronica","Tiana","Aubree","Nathaniel","Robert","Abril","Sandra","Miranda","Fatima","Carter","Adam","Douglas","Taylor","Jonathan"};
-        ArrayList<String> test = new ArrayList<>();
+        ArrayList<String> rndPlayers = new ArrayList<>();
+        try {
+            Scanner s = new Scanner(new File("src/com/rockpaperscissors/playerNames.txt"));
+            while (s.hasNext()){
+                rndPlayers.add(s.nextLine());
+            }
+        } catch (Exception e) {
+        }
         for(int i = 0; i<3; i++){
-            int randNr = (int) (Math.random() * cpuNames.length);
-            this.allPlayers.add(new Player(cpuNames[randNr]));
-
-
-
-
+            int randNr = (int) (Math.random() * rndPlayers.size());
+            this.allPlayers.add(new Player(rndPlayers.get(randNr)));
+            rndPlayers.remove(randNr);
         }
     }
 
@@ -213,12 +217,13 @@ public class Game {
 
     public int tryCatchMenus(){
         int menuChoice = 0;
-
         try {
+            this.console = new Scanner(System.in);
             menuChoice = Integer.parseInt(this.console.nextLine());
         }
         catch(Exception e){
         }
+        //console.close();
         return menuChoice;
     }
 
