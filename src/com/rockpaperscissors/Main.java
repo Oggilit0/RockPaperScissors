@@ -5,12 +5,14 @@ package com.rockpaperscissors;
  *
  *
  *  Class:
- *  Start with uppercase (Substantiv)
+ *  Start with uppercase
+ * (Substantiv)
  *  Riktiga ord inga påhitt
  *
  *
  *  Method:
- *  Start with lowercase (Verb)
+ *  Start with lowercase
+ * (Verb)
  *  Camelcase
  *
  *

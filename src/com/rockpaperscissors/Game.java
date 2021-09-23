@@ -3,6 +3,8 @@ package com.rockpaperscissors;
 
 // Döp om till nåt mer passande för att ha med menyer i classen ? typ program ? Döp om till game
 // this på allt också
+// Fixa score board så att inte oanvända spelare syns
+
 
 
 // Skapa player selection och lagring
@@ -68,9 +70,14 @@ public class Game {
     }
 
     public void createNewPlayer(){
-        System.out.println("Skriv in ditt namn: ");
+        System.out.print("Name your character: ");
         String playerName = console.nextLine();
-        allPlayers.add(new Player(playerName));
+        if(playerName.length()> 25){
+            System.out.println("Sorry, your name is to long, please enter a name of 25 characters or less");
+            createNewPlayer();
+        }else{
+            allPlayers.add(new Player(playerName));
+        }
     }
 
     /**
@@ -78,46 +85,90 @@ public class Game {
      */
     public void randomGeneratedPlayers(){
         String[] cpuNames = {"Lisa","Riley","Keon","Uriel","Allan","Doyle","Veronica","Tiana","Aubree","Nathaniel","Robert","Abril","Sandra","Miranda","Fatima","Carter","Adam","Douglas","Taylor","Jonathan"};
+        ArrayList<String> test = new ArrayList<>();
         for(int i = 0; i<3; i++){
-            int randNr = (int) (Math.random() * 19);
+            int randNr = (int) (Math.random() * cpuNames.length);
             this.allPlayers.add(new Player(cpuNames[randNr]));
+
+
+
+
         }
     }
 
     public void playerSelectionMenu(){  // Try catch för arraysen!
+        menuDesign("Choose Player");
         int playerSelectCounter = 0;
 
         for(Player p : allPlayers){
             System.out.println((playerSelectCounter+1) + ".   " + p.getName());
             playerSelectCounter++;
         }
-        System.out.println(playerSelectCounter+1 + ".   Create new character");
-        System.out.println(playerSelectCounter+2 + ".   Return to main menu");
-        System.out.println(playerSelectCounter+3 + ".   Delete player");
+        System.out.println(playerSelectCounter+1 + ".   Create new character\n" +(playerSelectCounter+2) + ".   Return to main menu\n" + (playerSelectCounter+3) + ".   Delete player" );
         int menuChoice = tryCatchMenus();
 
         if(menuChoice == (allPlayers.size()+1)){
+
             createNewPlayer();
+
         }else if (menuChoice == (allPlayers.size()+2)){
+
             mainMenu();
+
         }else if(menuChoice == (allPlayers.size())+3){
+
             System.out.println("Which player to remove?");
             menuChoice = tryCatchMenus();
-            allPlayers.remove(menuChoice-1);
+
+            if(menuChoice <= 0 || menuChoice > this.allPlayers.size()){
+                System.out.println("Invalid input");
+
+            }else{
+                allPlayers.remove(menuChoice-1);
+            }
             playerSelectionMenu();
         }
-        currentPlayer = this.allPlayers.get(menuChoice-1);
-        System.out.println(currentPlayer.getName());
-        playerSelectionMenu();
+        if(menuChoice <= 0 || menuChoice > this.allPlayers.size()){
+            System.out.println("Invalid input");
+
+        }else{
+
+            currentPlayer = this.allPlayers.get(menuChoice-1);
+            System.out.println(currentPlayer.getName());
+
+        }
+        mainMenu();
     }
 
     public void gameOver(){
         System.out.println("GAME OVER");
     }
 
-    public void mainMenu(){
+    public void menuDesign(String menu){
+        String space = "";
 
-        System.out.println("================\n    MainMenu\n================\n1.  New Game\n2.  Choose player\n3.  Match histoy\n4.  Quit");
+        if (currentPlayer != null){
+            for(int i = currentPlayer.getName().length(); i < (50-menu.length()); i++){
+                space += " ";
+            }
+            System.out.println("──────────────────────────────────────────────────\n" + currentPlayer.getName()+ space + menu + "\n──────────────────────────────────────────────────");
+           // space = "";
+        }else{
+            for(int i = 0; i <(50-menu.length()); i++){
+                space += " ";
+            }
+
+
+
+            System.out.println("──────────────────────────────────────────────────\n"+ space + menu + "\n──────────────────────────────────────────────────");
+            //space = "";
+        }
+
+    }
+
+    public void mainMenu(){
+        menuDesign("Main Menu");
+        System.out.println("1.  New Game\n2.  Choose player\n3.  Match histoy\n4.  Quit");
         int menuChoice = tryCatchMenus();
 
         switch(menuChoice){
@@ -137,8 +188,8 @@ public class Game {
                         case 3:
                             mainMenu();
                             break;
-                        default:
-                            System.out.println("Där bidde det fel!");
+//                        default:
+//                            System.out.println("Där bidde det fel!");
                     }
                     mainMenu();
                 }else{
@@ -154,9 +205,9 @@ public class Game {
             case 4:
                 gameOver();
                 break;
-            default:
-                System.out.println("Där bidde det fel, försök igen");
-                mainMenu();
+//            default:
+//                System.out.println("Där bidde det fel, försök igen");
+//                mainMenu();
         }
     }
 
@@ -172,7 +223,8 @@ public class Game {
     }
 
     public void playerChoiceMenu(){
-        System.out.println("================\n"+ this.currentPlayer.getName() +"'s Choice\n================\n1.  Rock\n2.  Paper\n3.  Scissors");
+        menuDesign("Game on");
+        System.out.println("1.  Rock\n2.  Paper\n3.  Scissors");
         int menuChoice = tryCatchMenus();
 
         switch(menuChoice){
