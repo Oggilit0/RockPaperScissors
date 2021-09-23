@@ -185,6 +185,9 @@ public class Game {
                     switch (menuChoice){
                         case 1:
                             createNewPlayer();
+                            this.currentPlayer = this.allPlayers.get(this.allPlayers.size()-1);
+                            newMatch();
+
                             break;
                         case 2:
                             playerSelectionMenu();
