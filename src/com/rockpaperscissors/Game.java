@@ -12,6 +12,7 @@ package com.rockpaperscissors;
 // Geometry metod??
 // debugga hela programmet
 // Kolla efter onödiga metoder, variablar, duplicates etc
+// Do while i player selection menu
 
 
 
@@ -236,23 +237,29 @@ public class Game {
             System.out.println( "Which player to remove?" );
             menuChoice = tryCatchMenus();
 
-            if( menuChoice <= 0 || menuChoice > this.allPlayers.size() ){
-                System.out.println( "Invalid input" );
 
-            }else if (this.allPlayers.get(menuChoice - 1).getName().equals(this.currentPlayer.getName())) {
+            /// BEHÖVS EN IFSATS FÖR ATT kunna ta bort en spelare även om man inte valt nån
+            if( menuChoice <= 0 || menuChoice > this.allPlayers.size() ){
+//                System.out.println( "Invalid input" );
+//            if (currentPlayer != null){
+//
+//            }
+            }else if (currentPlayer!= null && this.allPlayers.get(menuChoice - 1).getName().equals(this.currentPlayer.getName())) {
                 System.out.println("Can't delete existing player!");
 
             }else{
                 this.allPlayers.remove( menuChoice - 1 );
             }
-            //playerSelectionMenu();
+
         }
-        if( menuChoice <= 0 || menuChoice > this.allPlayers.size() ){   ///////////////////Behövs inte längre eller? menyn är dynamisk och måste anpassas efter den, så behöbs nog ändå. kolla
-            System.out.println( "Invalid input" );
+        if( menuChoice > this.allPlayers.size() ){
+            System.out.println( "Invalid input" ); // Gör do while loopar istället kanske ?
 
         }else{
             this.currentPlayer = this.allPlayers.get( menuChoice - 1 );
             System.out.println( this.currentPlayer.getName() );
+            mainMenu();
+
         }
         playerSelectionMenu();
     }
