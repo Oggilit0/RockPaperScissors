@@ -7,16 +7,19 @@ package com.rockpaperscissors;
  *
  */
 
-//TODO Javadoc här
-
+/**
+ * Class for handling and storing the outcome of the opponent for each match
+ *
+ */
 public class Opponent {
     private String opponentOutcome;
 
     public Opponent(){
-
     }
+
     /**
      * Method to randomize Opponent outcome
+     *
      */
     public void OpponentOutcome(){
         int randNr = ( int ) (Math.random() * 3 ) + 1;

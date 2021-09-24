@@ -3,11 +3,21 @@ package com.rockpaperscissors;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/**
+ *
+ */
+
 public class Match {
     private String matchId;
     private String result;
     private Opponent currentOpponent;
 
+
+    /**
+     * Constructor of the class Match
+     * @param result stores the outcome of match for later use
+     */
     public Match(String result){
         this.result = result;
         matchId();
@@ -22,8 +32,11 @@ public class Match {
         this.matchId = matchIdTime.format(timeFormat);
     }
 
+    /**
+     * Creates a new opponent
+     */
     public void createNewOpponent(){
-        currentOpponent = new Opponent();
+        this.currentOpponent = new Opponent();
     }
 
     public void setResult(String result) {
@@ -31,7 +44,7 @@ public class Match {
     }
 
     public String getResult() {
-        return result;
+        return this.result;
     }
 
     public String getMatchId() {

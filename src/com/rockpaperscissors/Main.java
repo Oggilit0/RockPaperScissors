@@ -28,13 +28,14 @@ package com.rockpaperscissors;
  *
  */
 
+/**
+ *
+ * @author Oskar
+ */
+
 public class Main {
     public static void main(String[] args) {
 
-        // Behöver en input för att ta user data
-
-        // Spelare som skall finnas från början i G
-        // För vg skapar men spelare själv
         // För extra bling bling lagras spelare tills nästa gång programmet körs
 
 

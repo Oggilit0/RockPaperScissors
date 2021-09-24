@@ -2,7 +2,9 @@ package com.rockpaperscissors;
 
 import java.util.ArrayList;
 
-//TODO Javadoc här
+/**
+ * Handling and storing player data, such as name and match history for later usage.
+ */
 public class Player {
     private final String name;
     private final ArrayList<Match> matchHistory;
