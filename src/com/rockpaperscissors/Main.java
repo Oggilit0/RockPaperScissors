@@ -37,8 +37,6 @@ public class Main {
     public static void main(String[] args) {
 
         // För extra bling bling lagras spelare tills nästa gång programmet körs
-
-
         Game newGame = new Game();
         newGame.mainMenu();
 

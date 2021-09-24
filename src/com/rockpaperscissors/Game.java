@@ -133,12 +133,18 @@ public class Game {
      */
     public int tryCatchMenus(){
         int menuChoice = 0;
-        try {
-            this.console = new Scanner( System.in );
-            menuChoice = Integer.parseInt( this.console.nextLine() );
-        }
-        catch( Exception e ){
-        }
+        do {
+            try {
+                this.console = new Scanner( System.in );
+                menuChoice = Integer.parseInt( this.console.nextLine() );
+            }
+            catch( Exception e ){
+                System.out.println("Invalid input");
+            }
+            if(menuChoice < 0){
+                System.out.println("invalid input");
+            }
+        }while(menuChoice == 0 || menuChoice <0);
         return menuChoice;
     }
 
@@ -191,8 +197,8 @@ public class Game {
                         case 3:
                             mainMenu();
                             break;
-                        default:
-                            System.out.println("Invalid input");
+//                        default:
+//                            System.out.println("Invalid input");
                     }
                 }else{
                     newMatch();
@@ -207,9 +213,9 @@ public class Game {
             case 4:
                 gameOver();
                 break;
-            default:
-                System.out.println("Där bidde det fel, försök igen");
-                mainMenu();
+//            default:
+//                System.out.println("Där bidde det fel, försök igen");
+//                mainMenu();
         }
     }
     public void playerSelectionMenu(){
@@ -272,9 +278,9 @@ public class Game {
             case 3:
                 this.playerChoice = "Scissors";
                 break;
-            default:
-                System.out.println( "Invalid input" );
-                playerChoiceMenu();
+//            default:
+//                System.out.println( "Invalid input" );
+//                playerChoiceMenu();
         }
     }
     public void matchHistoryMenu(){
@@ -299,13 +305,12 @@ public class Game {
                     space[0] += " ";
                 }
 
-                int i =0;
                 if( !this.currentPlayer.getMatchHistory().isEmpty() ){
-                    System.out.println( " Player: "+this.currentPlayer.getName() );
+                    System.out.println( " Player: " + this.currentPlayer.getName() );
 
                     System.out.println( "┌────────────────────────────────────────────────┐\n" + "│ Match id " + space[0] + "Result │\n" + "├────────────────────────────────────────────────┤" );
 
-                    for( int u = this.currentPlayer.getMatchHistory().get( i  ).getResult().length() ; u < 28 ; u++ ){
+                    for( int u = this.currentPlayer.getMatchHistory().get( 0  ).getResult().length() ; u < 28 ; u++ ){
                         space[1] += " ";
                     }
 
@@ -315,16 +320,14 @@ public class Game {
                         }
                     }
                     System.out.println( "└────────────────────────────────────────────────┘" );
-                    i++;
-
                 }
                 break;
             case 2:
                 mainMenu();
                 break;
-            default:
-                System.out.println( "Invalid input" );
-                matchHistoryMenu();
+//            default:
+//                System.out.println( "Invalid input" );
+//                matchHistoryMenu();
         }
         System.out.println( "1.  Main Menu\n2.  Quit" );
         menuChoice = tryCatchMenus();
@@ -336,10 +339,10 @@ public class Game {
             case 2:
                 gameOver();
                 break;
-            default:
-                System.out.println( "Där bidde det fel, försök igen" );
-                afterMatchMenu();
+//                default:
+//                    System.out.println( "Invalid input" );
         }
+
     }
 
     public void afterMatchMenu(){
@@ -371,9 +374,9 @@ public class Game {
             case 3:
                 gameOver();
                 break;
-            default:
-                System.out.println( "Invalid input" );
-                afterMatchMenu();
+//            default:
+//                System.out.println( "Invalid input" );
+//                afterMatchMenu();
         }
     }
 
