@@ -89,7 +89,6 @@ public class Game {
         this.currentPlayer.setMatchHistory( this.currentMatch );
     }
 
-
     /**
      * Custom character creation and adding it to playerbase
      * Restricted name length to handle menu geometry easier.
@@ -97,11 +96,11 @@ public class Game {
     public void createNewPlayer(){
         System.out.print( "Name your character: " );
         String playerName = this.console.nextLine();
-        if(playerName.length()> 15) {
-            System.out.println("Sorry, your name is to long, please enter a name of 15 characters or less");
+        if( playerName.length() > 15 ) {
+            System.out.println( "Sorry, your name is to long, please enter a name of 15 characters or less" );
             createNewPlayer();
-        }else if (playerName.length()< 1) {
-            System.out.println("Sorry, your name is to short");
+        }else if ( playerName.length() < 1 ) {
+            System.out.println( "Sorry, your name is to short" );
             createNewPlayer();
         }else{
             allPlayers.add( new Player( playerName ) );
@@ -120,7 +119,7 @@ public class Game {
             }
         } catch ( Exception e ) {
         }
-        for( int i = 0; i<3; i++ ){
+        for( int i = 0; i < 3; i++ ){
             int randNr = ( int ) ( Math.random() * rndPlayers.size() );
             this.allPlayers.add( new Player( rndPlayers.get( randNr ) ) );
             rndPlayers.remove( randNr );
@@ -139,19 +138,19 @@ public class Game {
                 menuChoice = Integer.parseInt( this.console.nextLine() );
             }
             catch( Exception e ){
-                System.out.println("Invalid input");
+                System.out.println( "Invalid input" );
             }
             if(menuChoice < 0){
-                System.out.println("invalid input");
+                System.out.println( "invalid input" );
             }
-        }while(menuChoice == 0 || menuChoice <0);
+        }while( menuChoice == 0 || menuChoice < 0 );
         return menuChoice;
     }
 
     /**
      * Design for all menus to look identical with hard coded geometry
      * Menu name length is dynamic but shouldn't be too long
-     * @param menu input string to displays that name in top right corner of menu
+     * @param menu input string to display that name in top right corner of menu
      */
     public void menuDesign( String menu ){
         String space = "";
@@ -197,8 +196,6 @@ public class Game {
                         case 3:
                             mainMenu();
                             break;
-//                        default:
-//                            System.out.println("Invalid input");
                     }
                 }else{
                     newMatch();
@@ -213,9 +210,6 @@ public class Game {
             case 4:
                 gameOver();
                 break;
-//            default:
-//                System.out.println("Där bidde det fel, försök igen");
-//                mainMenu();
         }
     }
     public void playerSelectionMenu(){
@@ -251,16 +245,16 @@ public class Game {
             }else{
                 this.allPlayers.remove( menuChoice - 1 );
             }
-            playerSelectionMenu();
+            //playerSelectionMenu();
         }
-        if( menuChoice <= 0 || menuChoice > this.allPlayers.size() ){
+        if( menuChoice <= 0 || menuChoice > this.allPlayers.size() ){   ///////////////////Behövs inte längre eller? menyn är dynamisk och måste anpassas efter den, så behöbs nog ändå. kolla
             System.out.println( "Invalid input" );
 
         }else{
             this.currentPlayer = this.allPlayers.get( menuChoice - 1 );
             System.out.println( this.currentPlayer.getName() );
         }
-        mainMenu();
+        playerSelectionMenu();
     }
 
     public void playerChoiceMenu(){
@@ -278,9 +272,6 @@ public class Game {
             case 3:
                 this.playerChoice = "Scissors";
                 break;
-//            default:
-//                System.out.println( "Invalid input" );
-//                playerChoiceMenu();
         }
     }
     public void matchHistoryMenu(){
@@ -288,7 +279,6 @@ public class Game {
         System.out.println( "1   Match history" );
         System.out.println( "2   Main Menu" );
         int menuChoice = tryCatchMenus();
-
 
         switch(menuChoice){
             case 1:
@@ -325,9 +315,6 @@ public class Game {
             case 2:
                 mainMenu();
                 break;
-//            default:
-//                System.out.println( "Invalid input" );
-//                matchHistoryMenu();
         }
         System.out.println( "1.  Main Menu\n2.  Quit" );
         menuChoice = tryCatchMenus();
@@ -339,10 +326,7 @@ public class Game {
             case 2:
                 gameOver();
                 break;
-//                default:
-//                    System.out.println( "Invalid input" );
         }
-
     }
 
     public void afterMatchMenu(){
@@ -374,9 +358,6 @@ public class Game {
             case 3:
                 gameOver();
                 break;
-//            default:
-//                System.out.println( "Invalid input" );
-//                afterMatchMenu();
         }
     }
 
@@ -386,13 +367,4 @@ public class Game {
     public void gameOver(){
         System.out.println( "GAME OVER" );
     }
-//
-//    public String stringLoop( String test ){
-//        String returnString = "";
-//        for( int i = 0 ; i < 48 ; i++ ){
-//            returnString += test;
-//        }
-//        return returnString;
-//    }
-
 }
