@@ -38,7 +38,7 @@ public class Main {
 
         // För extra bling bling lagras spelare tills nästa gång programmet körs
         Game newGame = new Game();
-        newGame.mainMenu();
+        newGame.startUp();
 
     }
 }

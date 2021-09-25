@@ -12,13 +12,7 @@ public class Match {
     private String matchId;
     private String result;
     private Player currentPlayer;
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     private Opponent currentOpponent;
-
 
     /**
      * Constructor of the class Match
@@ -117,5 +111,10 @@ public class Match {
     public Opponent getCurrentOpponent() {
         return currentOpponent;
     }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
 }
 
