@@ -8,10 +8,15 @@ import java.util.ArrayList;
 public class Player {
     private final String name;
     private final ArrayList<Match> matchHistory;
+    private String playerOutcome;
 
     public Player(String name){
         this.name = name;
         matchHistory = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setMatchHistory(Match matchHistory) {
@@ -22,7 +27,11 @@ public class Player {
         return matchHistory;
     }
 
-    public String getName() {
-        return name;
+    public void setPlayerOutcome(String playerOutcome) {
+        this.playerOutcome = playerOutcome;
+    }
+
+    public String getPlayerOutcome() {
+        return playerOutcome;
     }
 }

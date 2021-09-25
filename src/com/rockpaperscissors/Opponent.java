@@ -17,24 +17,8 @@ public class Opponent {
     public Opponent(){
     }
 
-    /**
-     * Method to randomize Opponent outcome
-     *
-     */
-    public void OpponentOutcome(){
-        int randNr = ( int ) (Math.random() * 3 ) + 1;
-
-        switch( randNr ){
-            case 1:
-                this.opponentOutcome = "Rock";
-                break;
-            case 2:
-                this.opponentOutcome = "Paper";
-                break;
-            case 3:
-                this.opponentOutcome = "Scissors";
-                break;
-        }
+    public void setOpponentOutcome(String opponentOutcome) {
+        this.opponentOutcome = opponentOutcome;
     }
 
     public String getOpponentOutcome() {
