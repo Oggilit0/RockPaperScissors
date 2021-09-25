@@ -3,9 +3,10 @@ package com.rockpaperscissors;
 import java.util.Scanner;
 
 public class Interface {
-        private Game currentGame;
+        private final Game currentGame;
+        private Scanner console;
 
-    public Interface(Game currentGame){
+    public Interface( Game currentGame ){
         this.currentGame = currentGame;
     }
 
@@ -13,7 +14,6 @@ public class Interface {
         menuDesign( "Main Menu" );
         System.out.println( "1.  New Game\n2.  Choose player\n3.  Match history\n4.  Quit" );
         int menuChoice = tryCatchMenus(4);
-
         switch( menuChoice ){
             case 1:
                 if( this.currentGame.getCurrentPlayer() == null ){
@@ -41,8 +41,7 @@ public class Interface {
 
         switch ( menuChoice ){
             case 1:
-                this.currentGame.createNewPlayer();
-                this.currentGame.setCurrentPlayer(this.currentGame.getAllPlayers().get( this.currentGame.getAllPlayers().size() - 1 ));
+                createNewPlayer();
                 this.currentGame.newMatch();
                 break;
             case 2:
@@ -54,24 +53,6 @@ public class Interface {
         }
     }
 
-    /**
-     * Method to handle geometry, making longer strings of characters to use in menus.
-     * Max length: 50
-     *
-     * @param symbol The character you want to print out
-     * @param offset Offset from left side of console
-     * @param length total length of desired part
-     * @return
-     */
-    public String geometryBuilder(String symbol, int offset,int length){
-        String geometry = "";
-        for( int i = offset; i < length ; i++ ){
-            geometry += symbol;
-        }
-        return geometry;
-    }
-
-
     public void playerChoiceMenu(){
         menuDesign( "Rock, paper & scissors" );
         System.out.println( "1.  Rock\n2.  Paper\n3.  Scissors" );
@@ -79,17 +60,18 @@ public class Interface {
 
         switch( menuChoice ){
             case 1:
-                this.currentGame.getCurrentPlayer().setPlayerOutcome("Rock");
+                this.currentGame.getCurrentPlayer().setPlayerOutcome( "Rock" );
                 break;
             case 2:
-                this.currentGame.getCurrentPlayer().setPlayerOutcome("Paper");
+                this.currentGame.getCurrentPlayer().setPlayerOutcome( "Paper" );
                 break;
             case 3:
-                this.currentGame.getCurrentPlayer().setPlayerOutcome("Scissors");
+                this.currentGame.getCurrentPlayer().setPlayerOutcome( "Scissors" );
                 break;
         }
     }
 
+    //Fixa den här menyn!
     public void playerSelectionMenu(){
         menuDesign( "Choose Player" );
         int playerSelectCounter = 0;
@@ -103,7 +85,7 @@ public class Interface {
 
         if( menuChoice == (this.currentGame.getAllPlayers().size() + 1 ) ){
 
-            this.currentGame.createNewPlayer();
+            createNewPlayer();
 
         }else if ( menuChoice == ( this.currentGame.getAllPlayers().size() + 2 ) ){
 
@@ -143,28 +125,15 @@ public class Interface {
 
     public void matchHistoryMenu(){
         menuDesign( "Match History" );
-        System.out.println( "1   Match history\n2   Main Menu");
+        System.out.println( "1   Match history\n2   Main Menu" );
         int menuChoice = tryCatchMenus(2);
 
-        switch(menuChoice){
+        switch( menuChoice ){
             case 1:
-                if( this.currentGame.getCurrentPlayer() == null ){
-                    System.out.println( "No active player" );
-                    matchHistoryMenu();
-                }
-
-                if( !this.currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
-                    System.out.println( " Player: " + this.currentGame.getCurrentPlayer().getName() );
-                    System.out.println( "┌"+geometryBuilder("─",0,48)+"┐\n" + "│ Match id " + geometryBuilder(" ", 0, 31) + "Result │\n" + "├" +geometryBuilder("─",0,48)+"┤" );
-
-                    if( !this.currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
-                        for( Match m : this.currentGame.getCurrentPlayer().getMatchHistory() ){
-                            System.out.println( "│ [" + m.getMatchId() + "]" +geometryBuilder(" ",this.currentGame.getCurrentPlayer().getMatchHistory().get(0).getResult().length(),28)+ m.getResult() + "│" );
-                        }
-                    }
-                    System.out.println( "└────────────────────────────────────────────────┘" );
-                }else{
-                    System.out.println("no record to show");
+                try{
+                    matchHistoryPrinter();
+                }catch ( Exception e ){
+                    System.out.println( "no record to show" );
                 }
                 break;
             case 2:
@@ -174,9 +143,23 @@ public class Interface {
         afterMatchHistoryMenu();
     }
 
+    public void matchHistoryPrinter (){
+        if( !this.currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
+            System.out.println( " Player: " + this.currentGame.getCurrentPlayer().getName() );
+            System.out.println( "┌"+geometryBuilder("─",0,48)+"┐\n" + "│ Match id " + geometryBuilder(" ", 0, 31) + "Result │\n" + "├" +geometryBuilder("─",0,48)+"┤" );
+
+            if( !this.currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
+                for( Match m : this.currentGame.getCurrentPlayer().getMatchHistory() ){
+                    System.out.println( "│ [" + m.getMatchId() + "]" +geometryBuilder(" ",this.currentGame.getCurrentPlayer().getMatchHistory().get(0).getResult().length(),28)+ m.getResult() + "│" );
+                }
+            }
+            System.out.println( "└"+geometryBuilder("─",0,48)+"┘" );
+        }
+    }
+
     public void afterMatchHistoryMenu(){
         System.out.println( "1.  Main Menu\n2.  Quit" );
-        int menuChoice = tryCatchMenus(2);
+        int menuChoice = tryCatchMenus( 2 );
 
         switch( menuChoice ){
             case 1:
@@ -187,24 +170,27 @@ public class Interface {
                 break;
         }
     }
+    /**
+     * Custom character creation and adding it to playerbase
+     * Restricted name length to handle menu geometry easier.
+     */
+    public void createNewPlayer(){
+        String playerName;
+        do {
+            System.out.print("Name your character: ");
+            playerName = this.console.nextLine();
+            if (playerName.length() > 15 || playerName.length() < 1) {
+                System.out.println("Sorry, your name need to be 1-15 characters");
+            }
+            System.out.println(playerName.length());
+        }while (playerName.length() > 15 || playerName.length() < 1) ;
+        this.currentGame.getAllPlayers().add(new Player(playerName));
+        this.currentGame.setCurrentPlayer(this.currentGame.getAllPlayers().get(this.currentGame.getAllPlayers().size()-1));
+    }
 
     /// FIXA GEOMETRI HÄR MED MELLANRUM
     public void afterMatchMenu(){
-        String[] space = { "","","" };
-        for( int i = ( this.currentGame.getCurrentPlayer().getName().length() + this.currentGame.getCurrentPlayer().getPlayerOutcome().length()) + 1 ; i < 24 ; i++ ){
-            space[0] += " ";
-        }
-        for( int i = this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome().length() + 9; i < 24 ; i++ ){
-            space[1] += " ";
-        }
-        for( int i = this.currentGame.getCurrentMatch().getResult().length() ; i <= 26 ; i++ ){
-            space[2] += " ";
-        }
-
-        String result = "Opponent:" + space[1] + this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome() + "││" + this.currentGame.getCurrentPlayer().getPlayerOutcome() +space[0] + ":";
-
-        menuDesign( result );
-        System.out.println(space[2] + this.currentGame.getCurrentMatch().getResult() );
+        afterMatchMenuScoreBorder();
         System.out.println( "1.  Main Menu\n2.  New Match\n3.  Quit" );
         int menuChoice = tryCatchMenus(3);
 
@@ -221,6 +207,18 @@ public class Interface {
         }
     }
 
+    public void afterMatchMenuScoreBorder(){
+        String[] space = new String[3];
+        space[0] = geometryBuilder(" ",(this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome().length() + 9),24);
+        space[1] = geometryBuilder(" ",(( this.currentGame.getCurrentPlayer().getName().length() + this.currentGame.getCurrentPlayer().getPlayerOutcome().length()) + 1),24);
+        space[2] = geometryBuilder(" ",this.currentGame.getCurrentMatch().getResult().length(),27);
+
+        geometryBuilder(" ",(( this.currentGame.getCurrentPlayer().getName().length() + this.currentGame.getCurrentPlayer().getPlayerOutcome().length()) + 1),24);
+        String result = "Opponent:" + space[0] + this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome() + "││" + this.currentGame.getCurrentPlayer().getPlayerOutcome() +space[1] + ":";
+        menuDesign( result );
+        System.out.println(space[2] + this.currentGame.getCurrentMatch().getResult() );
+    }
+
     /**
      * Method to handling user input and to get rid of wrongfully inputs that the user might do
      * @param maxCase get input from menu to know max case to handle exceptions
@@ -230,8 +228,8 @@ public class Interface {
         int menuChoice = 0;
         do {
             try {
-                this.currentGame.setConsole(new Scanner( System.in ));
-                menuChoice = Integer.parseInt( this.currentGame.getConsole().nextLine() );
+                this.console = new Scanner( System.in);
+                menuChoice = Integer.parseInt( this.console.nextLine() );
             }
             catch( Exception e ){
                 System.out.println( "Invalid input" );
@@ -254,6 +252,23 @@ public class Interface {
         }else{
             System.out.println( geometryBuilder( "─",0,50 ) + "\n" + menu + "\n" + geometryBuilder( "─",0,50 ) );
         }
+    }
+
+    /**
+     * Method to handle geometry, making longer strings of characters to use in menus.
+     * Max length: 50
+     *
+     * @param symbol The character you want to print out
+     * @param offset Offset from left side of console
+     * @param length total length of desired part
+     * @return
+     */
+    public String geometryBuilder(String symbol, int offset,int length){
+        String geometry = "";
+        for( int i = offset; i < length ; i++ ){
+            geometry += symbol;
+        }
+        return geometry;
     }
 
 }

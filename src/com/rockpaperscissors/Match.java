@@ -18,7 +18,7 @@ public class Match {
      * Constructor of the class Match
      * @param result stores the outcome of match for later use
      */
-    public Match(String result){
+    public Match( String result ){
         this.result = result;
         matchId();
     }
@@ -28,8 +28,8 @@ public class Match {
      */
     public void matchId(){
         LocalDateTime matchIdTime = LocalDateTime.now();
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yy-MM-dd:HH.mm.ss");
-        this.matchId = matchIdTime.format(timeFormat);
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern( "yy-MM-dd:HH.mm.ss" );
+        this.matchId = matchIdTime.format( timeFormat );
     }
 
 
@@ -37,17 +37,17 @@ public class Match {
      * Method to randomize Opponent outcome
      */
     public void OpponentOutcome(){
-        int randNr = ( int ) (Math.random() * 3 ) + 1;
+        int randNr = ( int ) ( Math.random() * 3 ) + 1;
 
         switch( randNr ){
             case 1:
-                this.currentOpponent.setOpponentOutcome("Rock");
+                this.currentOpponent.setOpponentOutcome( "Rock" );
                 break;
             case 2:
-                this.currentOpponent.setOpponentOutcome("Paper");
+                this.currentOpponent.setOpponentOutcome( "Paper" );
                 break;
             case 3:
-                this.currentOpponent.setOpponentOutcome("Scissors");
+                this.currentOpponent.setOpponentOutcome( "Scissors" );
                 break;
         }
     }
@@ -96,7 +96,7 @@ public class Match {
         this.currentOpponent = new Opponent();
     }
 
-    public void setResult(String result) {
+    public void setResult( String result ) {
         this.result = result;
     }
 
@@ -112,7 +112,7 @@ public class Match {
         return currentOpponent;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
+    public void setCurrentPlayer( Player currentPlayer ) {
         this.currentPlayer = currentPlayer;
     }
 
