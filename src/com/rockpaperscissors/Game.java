@@ -29,8 +29,6 @@ import java.util.Scanner;
  */
 
 public class Game {
-    //private Scanner console;
-    //private String playerChoice;
     private Match currentMatch;
     private Player currentPlayer;
     private final ArrayList<Player> allPlayers;
@@ -38,7 +36,7 @@ public class Game {
 
     public Game(){
         this.allPlayers = new ArrayList<>();
-        currentInterface = new Interface( this );
+        this.currentInterface = new Interface( this );
         randomGeneratedPlayers();
     }
 
