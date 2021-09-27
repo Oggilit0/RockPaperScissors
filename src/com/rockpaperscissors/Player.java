@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 /**
  * Handling and storing player data, such as name and match history for later usage.
+ * @author Oskar
  */
+
 public class Player {
     private final String name;
     private final ArrayList<Match> matchHistory;

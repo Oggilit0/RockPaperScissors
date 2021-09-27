@@ -1,7 +1,8 @@
 package com.rockpaperscissors;
 
 /**
- *
+ * The game Rock, Paper & Scissors
+ * interpreted by the author.
  * @author Oskar
  */
 

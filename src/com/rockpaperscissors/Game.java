@@ -13,7 +13,8 @@ package com.rockpaperscissors;
 // debugga hela programmet
 // Kolla efter onödiga metoder, variablar, duplicates etc
 // Do while i player selection menu
-
+//Ändra ordning på menyer
+// Kolla så att kommentarer är konsistent : Tex Current active player = du som spelare,
 
 
 // Skapa player selection och lagring
@@ -26,17 +27,18 @@ import java.util.Scanner;
 /**
  * All logical decision-making and menu handling of the game.
  *
+ * @author Oskar
  */
 
 public class Game {
     private Match currentMatch;
     private Player currentPlayer;
     private final ArrayList<Player> allPlayers;
-    private final Interface currentInterface;
+    private final UserInterface currentInterface;
 
     public Game(){
         this.allPlayers = new ArrayList<>();
-        this.currentInterface = new Interface( this );
+        this.currentInterface = new UserInterface( this );
         randomGeneratedPlayers();
     }
 

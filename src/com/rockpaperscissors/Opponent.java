@@ -9,8 +9,9 @@ package com.rockpaperscissors;
 
 /**
  * Class for handling and storing the outcome of the opponent for each match
- *
+ * @author Oskar
  */
+
 public class Opponent {
     private String opponentOutcome;
 

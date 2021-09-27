@@ -5,7 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 
 /**
- *
+ * This is the Match class where we store info and.
+ * We also generates unique ID's to each Match object and
+ * roll our opponent's outcome.
+ * @author Oskar
  */
 
 public class Match {
@@ -26,6 +29,7 @@ public class Match {
     /**
      * Set matchId to current time as unique ID for each game
      */
+    // Calender kanske ?
     public void matchId(){
         LocalDateTime matchIdTime = LocalDateTime.now();
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern( "yy-MM-dd:HH.mm.ss" );
