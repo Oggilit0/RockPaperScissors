@@ -61,31 +61,31 @@ public class Match {
      * The match and result is then stored separately in Player class for the current player.
      */
     public void outcome(){
-        if ( currentPlayer.getPlayerOutcome().equals( this.getCurrentOpponent().getOpponentOutcome() ) ){
-            this.setResult( "Draw" );
+        if ( this.currentPlayer.getPlayerOutcome().equals( this.getCurrentOpponent().getOpponentOutcome() ) ){
+            this.result = "Draw";
         } else{
-            switch( currentPlayer.getPlayerOutcome() ){
+            switch( this.currentPlayer.getPlayerOutcome() ){
                 case "Rock":
                     if( this.getCurrentOpponent().getOpponentOutcome().equals( "Scissors" ) ){
-                        this.setResult( "Won!" );
+                        this.result = "Won!";
                     }else{
-                        this.setResult( "Lost" );
+                        this.result = "Lost";
                     }
                     break;
 
                 case "Paper":
                     if( this.getCurrentOpponent().getOpponentOutcome().equals( "Rock" ) ){
-                        this.setResult( "Won!" );
+                        this.result = "Won!";
                     }else{
-                        this.setResult( "Lost" );
+                        this.result = "Lost";
                     }
                     break;
 
                 case "Scissors":
                     if(this.getCurrentOpponent().getOpponentOutcome().equals( "Paper" )){
-                        this.setResult( "Won!" );
+                        this.result = "Won!";
                     }else{
-                        this.setResult( "Lost" );
+                        this.result = "Lost";
                     }
                     break;
             }
@@ -98,10 +98,6 @@ public class Match {
      */
     public void createNewOpponent(){
         this.currentOpponent = new Opponent();
-    }
-
-    public void setResult( String result ) {
-        this.result = result;
     }
 
     public String getResult() {

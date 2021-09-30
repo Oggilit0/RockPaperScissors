@@ -15,6 +15,10 @@ package com.rockpaperscissors;
 // Do while i player selection menu
 //Ändra ordning på menyer
 // Kolla så att kommentarer är konsistent : Tex Current active player = du som spelare,
+// Random text från opponent =?
+// Random oponent namn?
+// Gör en hjälpklass static
+// e.printStackTrace
 
 
 // Skapa player selection och lagring
@@ -33,6 +37,7 @@ import java.util.Scanner;
 public class Game {
     private Match currentMatch;
     private Player currentPlayer;
+    //private Scanner console;
     private final ArrayList<Player> allPlayers;
     private final UserInterface currentInterface;
 
@@ -65,7 +70,7 @@ public class Game {
     public void randomGeneratedPlayers(){
         ArrayList<String> rndPlayers = new ArrayList<>();
         try {
-            Scanner s = new Scanner( new File( "src/com/rockpaperscissors/playerNames.txt" ) );
+            Scanner s = new Scanner( new File( "playerNames.txt" ) );
             while ( s.hasNext() ){
                 rndPlayers.add( s.nextLine() );
             }
