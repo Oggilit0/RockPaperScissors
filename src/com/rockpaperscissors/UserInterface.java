@@ -11,7 +11,6 @@ import java.util.Scanner;
  */
 public class UserInterface {
         private final Game currentGame;
-        private Scanner console;
 
     /**
      * Constructor to add the current game program for access
@@ -27,7 +26,7 @@ public class UserInterface {
      */
     public void mainMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("Main menu", currentGame.getCurrentPlayer(), "New Game","Choose player","Match history");
+        int menuChoice = GameUtils.menuBuilder("Main menu", this.currentGame.getCurrentPlayer(), "New Game","Choose player","Match history");
 
         switch( menuChoice ){
             case 1:
@@ -55,7 +54,7 @@ public class UserInterface {
      */
     public void noPlayerSelectMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("No player selected", currentGame.getCurrentPlayer(), "Create new player","Choose existing player","Main menu");
+        int menuChoice = GameUtils.menuBuilder("No player selected", this.currentGame.getCurrentPlayer(), "Create new player","Choose existing player","Main menu");
 
         switch ( menuChoice ){
             case 1:
@@ -78,7 +77,7 @@ public class UserInterface {
      */
     public void playerChoiceMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("Rock, paper & Scissors", currentGame.getCurrentPlayer(), "Rock","Paper","Scissors");
+        int menuChoice = GameUtils.menuBuilder("Rock, paper & Scissors", this.currentGame.getCurrentPlayer(), "Rock","Paper","Scissors");
 
         switch( menuChoice ){
             case 1:
@@ -93,23 +92,13 @@ public class UserInterface {
         }
     }
 
-    //Fixa den här menyn!
     /**
      * Dynamic menu with 3 static options.
      * Writes out all available players as different menu items for the user to choose from
      */
     public void playerSelectionMenu(){
-        GameUtils.menuDesign( "Choose Player" , currentGame.getCurrentPlayer() );
 
-
-        //System.out.println( "1.\tCreate and choose new character\n" +  "2.\tReturn to main menu\n" + "3.\tDelete player" );
-
-
-        //int menuChoice = GameUtils.tryCatchMenus(playerSelectCounter+3);
-
-
-        int menuChoice = GameUtils.menuBuilder("Choose player", currentGame.getCurrentPlayer(),"Create and choose new character", "Return to main menu", "Delete player", test());
-
+        int menuChoice = GameUtils.menuBuilder("Choose player", this.currentGame.getCurrentPlayer(),"Create and choose new character", "Return to main menu", "Delete player", printPlayerListAsMenuIndex());
 
         switch(menuChoice){
             case 1:
@@ -119,8 +108,13 @@ public class UserInterface {
                 mainMenu();
                 break;
             case 3:
+                if(this.currentGame.getAllPlayers().size() == 0){
+                    System.out.println("Test");
+                    playerSelectionMenu();
+                }
                 System.out.println( "Which player to remove?" );
                 deletePlayer(this.currentGame.getAllPlayers().size()+3);
+                playerSelectionMenu();
                 break;
             default:
                 this.currentGame.setCurrentPlayer(this.currentGame.getAllPlayers().get( menuChoice - 4 ));
@@ -128,40 +122,43 @@ public class UserInterface {
         mainMenu();
     }
 
-    public String test (){
+    public String printPlayerListAsMenuIndex (){
         int playerSelectCounter = 0;
-        String test ="";
+        String playerListBuilder ="";
         for( Player p : this.currentGame.getAllPlayers() ){
             if(playerSelectCounter == 0){
-                test +=(p.getName()+"\n");
-            }else{
-                test +=( playerSelectCounter+4 ) + ".\t" + p.getName()+"\n";
-            }
 
+                playerListBuilder +=(p.getName()+"\n");
+            }else{
+                playerListBuilder +=( playerSelectCounter+4 ) + ".\t" + p.getName()+"\n";
+            }
             playerSelectCounter++;
         }
-        return test;
+        return playerListBuilder;
     }
 
 
     /**
      * Method to delete a player from the playerSelectionMenu.
      * @param playerIndexToRemove takes the player and remove it from arraylist in game class.
+     * @return
      */
-    public void deletePlayer(int playerIndexToRemove) {
-        int menuChoice = GameUtils.tryCatchMenus(playerIndexToRemove);
+    public String deletePlayer(int playerIndexToRemove) {
 
-        try{
+            int menuChoice = 0;
+
+            do{
+                menuChoice = GameUtils.tryCatchMenus(playerIndexToRemove);
+                if(menuChoice < 4){
+                    System.out.println("Invalid input");
+                }
+            }while(menuChoice < 4);
             if (this.currentGame.getCurrentPlayer() != null && this.currentGame.getAllPlayers().get(menuChoice - 4).getName().equals(this.currentGame.getCurrentPlayer().getName())) {
-                System.out.println("Can't delete existing player!");
+                return "Can't delete existing player!";
             }else{
                 this.currentGame.getAllPlayers().remove( menuChoice -4 );
+                return  this.currentGame.getAllPlayers()+"removed";
             }
-        }catch(Exception e){
-            System.out.println( "Invalid input" );
-        }
-
-        playerSelectionMenu();
     }
 
     /**
@@ -171,7 +168,7 @@ public class UserInterface {
      */
     public void matchHistoryMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("Match Historu", currentGame.getCurrentPlayer(), matchHistoryPrinter());
+        int menuChoice = GameUtils.menuBuilder("Match Historu", this.currentGame.getCurrentPlayer(), matchHistoryPrinter());
 
         if (menuChoice == 1) {
             mainMenu();
@@ -192,15 +189,15 @@ public class UserInterface {
         }
 
         if( !this.currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
-            matchHistoryTopBorder = ( "┌"+geometryBuilder("─",0,48)+"┐\n" + "│ Match id " + geometryBuilder(" ", 0, 31) + "Result │\n" + "├" +geometryBuilder("─",0,48)+"┤" );
+            matchHistoryTopBorder = ( "┌"+GameUtils.geometryBuilder("─",0,48)+"┐\n" + "│ Match id " + GameUtils.geometryBuilder(" ", 0, 31) + "Result │\n" + "├" +GameUtils.geometryBuilder("─",0,48)+"┤" );
 
             if( !this.currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
                 for( Match m : this.currentGame.getCurrentPlayer().getMatchHistory() ){
-                    matchHistoryTopBorder += ( "\n│ [" + m.getMatchId() + "]" +geometryBuilder(" ",this.currentGame.getCurrentPlayer().getMatchHistory().get(0).getResult().length(),28)+ m.getResult() + "│" );
+                    matchHistoryTopBorder += ( "\n│ [" + m.getMatchId() + "]" +GameUtils.geometryBuilder(" ",this.currentGame.getCurrentPlayer().getMatchHistory().get(0).getResult().length(),28)+ m.getResult() + "│" );
                 }
                 matchHistoryTopBorder += "\n";
             }
-            matchHistoryBottomBorder = ( "└"+geometryBuilder("─",0,48)+"┘\n" );
+            matchHistoryBottomBorder = ( "└"+GameUtils.geometryBuilder("─",0,48)+"┘\n" );
         }
 
         return matchHistoryTopBorder + matchHistoryBottomBorder +"1.\tMain menu";
@@ -212,15 +209,14 @@ public class UserInterface {
      */
     public void createNewPlayer(){
         String playerName;
-        console = new Scanner(System.in);
+        Scanner console = new Scanner(System.in);
         do {
             System.out.print( "Name your character: " );
-            playerName = this.console.nextLine();
-            if ( playerName.length() > 15 || playerName.length() < 2 ) {
+            playerName = console.nextLine();
+            if ( playerName.length() > 10 || playerName.length() < 2 ) {
                 System.out.println("Sorry, your name need to be 2-15 characters");
             }
-            System.out.println(playerName.length());
-        }while ( playerName.length() > 15 || playerName.length() < 1 ) ;
+        }while ( playerName.length() > 10 || playerName.length() < 2 ) ;
         this.currentGame.getAllPlayers().add( new Player( playerName ) );
         this.currentGame.setCurrentPlayer( this.currentGame.getAllPlayers().get( this.currentGame.getAllPlayers().size() - 1 ) );
     }
@@ -230,9 +226,8 @@ public class UserInterface {
      * replay, go back to main menu or to quick the game.
      */
     public void afterMatchMenu(){
-        afterMatchMenuScoreBorder();
-        System.out.println( "1.\tMain Menu\n2.\tNew Match\n3.\tQuit" );
-        int menuChoice = GameUtils.tryCatchMenus(3);
+
+        int menuChoice = GameUtils.menuBuilder(afterMatchMenuScoreBorder(), this.currentGame.getCurrentPlayer(), "Main Menu","New Match","Quit");
 
         switch( menuChoice ){
             case 1:
@@ -248,38 +243,17 @@ public class UserInterface {
     }
 
 
-    /**
-     * Displays match data on the after match screen
-     */
-    public void afterMatchMenuScoreBorder(){
-        String[] space = new String[3];
-        space[0] = geometryBuilder(" ",( this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome().length() + 9 ),24 );
-        space[1] = geometryBuilder(" ",( ( this.currentGame.getCurrentPlayer().getName().length() + this.currentGame.getCurrentPlayer().getPlayerOutcome().length()) + 1 ),24 );
-        space[2] = geometryBuilder(" ",this.currentGame.getCurrentMatch().getResult().length(),27 );
 
-        geometryBuilder(" ",( ( this.currentGame.getCurrentPlayer().getName().length() + this.currentGame.getCurrentPlayer().getPlayerOutcome().length() ) + 1 ),24 );
-        String result = "Opponent:" + space[0] + this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome() + "││" + this.currentGame.getCurrentPlayer().getPlayerOutcome() +space[1] + ":";
-        GameUtils.menuDesign( result , currentGame.getCurrentPlayer() );
-        System.out.println( space[2] + this.currentGame.getCurrentMatch().getResult() );
+    public String afterMatchMenuScoreBorder(){
+        String[] space = new String[2];
+        space[0] = GameUtils.geometryBuilder(" ",( this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome().length() + 9 ),22 );
+        space[1] = GameUtils.geometryBuilder(" ",( ( this.currentGame.getCurrentPlayer().getName().length() + this.currentGame.getCurrentPlayer().getPlayerOutcome().length())),21 );
+
+        String printOpponentOutcome ="Opponent: " + this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome()+space[0];
+        String printPlayerOutcome =  space [1] + this.currentGame.getCurrentPlayer().getPlayerOutcome() + " :";
+
+        return printOpponentOutcome + this.currentGame.getCurrentMatch().getResult() + printPlayerOutcome;
     }
 
-
-    /**
-     * Method to handle geometry, making longer strings of characters to use in menus.
-     * Max length: 50
-     *
-     * @param symbol The character you want to print out
-     * @param offset Offset from left side of console
-     * @param length total length of desired part
-     * @return
-     */
-
-    public String geometryBuilder( String symbol, int offset,int length ){
-        String geometry = "";
-        for( int i = offset; i < length ; i++ ){
-            geometry += symbol;
-        }
-        return geometry;
-    }
 
 }

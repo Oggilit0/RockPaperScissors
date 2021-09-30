@@ -14,11 +14,11 @@ public class Player {
 
     public Player(String name){
         this.name = name;
-        matchHistory = new ArrayList<>();
+        this.matchHistory = new ArrayList<>();
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setMatchHistory(Match matchHistory) {
@@ -26,7 +26,7 @@ public class Player {
     }
 
     public ArrayList<Match> getMatchHistory() {
-        return matchHistory;
+        return this.matchHistory;
     }
 
     public void setPlayerOutcome(String playerOutcome) {
@@ -34,6 +34,6 @@ public class Player {
     }
 
     public String getPlayerOutcome() {
-        return playerOutcome;
+        return this.playerOutcome;
     }
 }

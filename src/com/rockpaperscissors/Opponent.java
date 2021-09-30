@@ -15,9 +15,6 @@ package com.rockpaperscissors;
 public class Opponent {
     private String opponentOutcome;
 
-    public Opponent(){
-    }
-
     public void setOpponentOutcome(String opponentOutcome) {
         this.opponentOutcome = opponentOutcome;
     }

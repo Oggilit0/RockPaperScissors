@@ -1,23 +1,15 @@
 package com.rockpaperscissors;
 
 
-// Döp om till nåt mer passande för att ha med menyer i classen ? typ program ? Döp om till game
 // this på allt också
-// Fixa score board så att inte oanvända spelare syns
 // Kolla om break behövs till varje switch
 // Fixa system outs på en linje
 // Fixa mellanrum ( )
-// Lägg in skriv: efter varje menyval
-// Behöver jag quit i statistik?
-// Geometry metod??
 // debugga hela programmet
 // Kolla efter onödiga metoder, variablar, duplicates etc
-// Do while i player selection menu
 //Ändra ordning på menyer
 // Kolla så att kommentarer är konsistent : Tex Current active player = du som spelare,
-// Random text från opponent =?
 // Random oponent namn?
-// Gör en hjälpklass static
 // e.printStackTrace
 
 
@@ -37,7 +29,6 @@ import java.util.Scanner;
 public class Game {
     private Match currentMatch;
     private Player currentPlayer;
-    //private Scanner console;
     private final ArrayList<Player> allPlayers;
     private final UserInterface currentInterface;
 
@@ -48,7 +39,7 @@ public class Game {
     }
 
     public void startUp (){
-        currentInterface.mainMenu();
+        this.currentInterface.mainMenu();
     }
 
     /**
@@ -67,6 +58,7 @@ public class Game {
     /**
      * Generates 3 predetermined players with a random name from array.
      */
+    // gör om så den inte använder scanner
     public void randomGeneratedPlayers(){
         ArrayList<String> rndPlayers = new ArrayList<>();
         try {
@@ -83,12 +75,20 @@ public class Game {
         }
     }
 
+    /**
+     * Terminate the program
+     */
+    public void gameOver(){
+        System.out.println( "GAME OVER" );
+        System.exit(0);
+    }
+
     public Match getCurrentMatch() {
-        return currentMatch;
+        return this.currentMatch;
     }
 
     public ArrayList<Player> getAllPlayers() {
-        return allPlayers;
+        return this.allPlayers;
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
@@ -96,14 +96,6 @@ public class Game {
     }
 
     public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    /**
-     * Terminate the program
-     */
-    public void gameOver(){
-        System.out.println( "GAME OVER" );
-        System.exit(0);
+        return this.currentPlayer;
     }
 }

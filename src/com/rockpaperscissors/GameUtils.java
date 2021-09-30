@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class GameUtils {
 
-    private static Scanner console;
+    private static boolean firstMenuAlreadyExecuted = false;
 
     public static void clearConsole(){
-        System.out.println("\n".repeat(20));
+        System.out.println( "\n".repeat( 20 ) );
     }
 
     /**
@@ -18,7 +18,7 @@ public class GameUtils {
     public static int tryCatchMenus( int maxCase ){
         int menuChoice = 0;
         System.out.print( "\nUser input: " );
-        console = new Scanner( System.in);
+        Scanner console = new Scanner( System.in );
 
         do {
             try {
@@ -34,21 +34,21 @@ public class GameUtils {
         return menuChoice;
     }
 
-    /**
-     * Design for all menus to look identical with semi-hard coded geometry
-     * Menu name length is dynamic but shouldn't be too long
-     * @param menu input string to display menu name in top right corner of menu
-     */
-    public static void menuDesign( String menu , Player player ){
-        GameUtils.clearConsole();
-        int menuLength = 50;
-        String menuBorder = "─";
-        if ( player != null ){
-            System.out.println( geometryBuilder( menuBorder,0,menuLength ) + "\n" + menu + geometryBuilder(" ",player.getName().length(),menuLength - menu.length()) + player.getName() + "\n" + geometryBuilder( menuBorder,0,menuLength ) );
-        }else{
-            System.out.println( geometryBuilder( menuBorder,0,menuLength ) + "\n" + menu + "\n" + geometryBuilder( menuBorder,0,menuLength ) );
-        }
-    }
+//    /**
+//     * Design for all menus to look identical with semi-hard coded geometry
+//     * Menu name length is dynamic but shouldn't be too long
+//     * @param menu input string to display menu name in top right corner of menu
+//     */
+//    public static void menuDesign( String menu , Player player ){
+//        GameUtils.clearConsole();
+//        int menuLength = 50;
+//        String menuBorder = "─";
+//        if ( player != null ){
+//            System.out.println( geometryBuilder( menuBorder,0,menuLength ) + "\n" + menu + geometryBuilder(" ",player.getName().length(),menuLength - menu.length()) + player.getName() + "\n" + geometryBuilder( menuBorder,0,menuLength ) );
+//        }else{
+//            System.out.println( geometryBuilder( menuBorder,0,menuLength ) + "\n" + menu + "\n" + geometryBuilder( menuBorder,0,menuLength ) );
+//        }
+//    }
 
     /**
      * Method to handle geometry, making longer strings of characters to use in menus.
@@ -67,9 +67,22 @@ public class GameUtils {
         return geometry;
     }
 
-
+    /**
+     * Design for all menus to look identical and to print out a menu border before each menu
+     * containing Menu name and current player name
+     *
+     * @param menuName Name of created menu
+     * @param player player to be printed in menu border
+     * @param options name and amount of menu index's
+     * @return int for menu choices
+     */
     public static int menuBuilder ( String menuName, Player player, String ...options ){
-        GameUtils.clearConsole();
+
+        if(firstMenuAlreadyExecuted){
+            GameUtils.clearConsole();
+        }
+        firstMenuAlreadyExecuted = true;
+
         int menuLength = 50;
         String menuBorder = "─";
         if ( player != null ){
@@ -82,7 +95,7 @@ public class GameUtils {
         for (String option : options ){
 
             if ( option.equals( "" ) ) {
-                // outprints no value if string is empty
+                // prints no value if string is empty
             }else if ( options.length == 1 ){
                 System.out.println( option );
             }else{
