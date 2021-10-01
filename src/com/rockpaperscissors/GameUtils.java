@@ -11,8 +11,8 @@ public class GameUtils {
      *<p> Border symbols:
      * <p>[0] "─" <p> [1] "│" <p>[2] "┌" <p>[3] "┐" <p>[4] "├" <p>[5] "┤"
      */
-    public class DynamicVariables {
-        static int playerAmount = 3;
+    public static class DynamicVariables {
+        static int playerAmount = 5;
         static int menuLength = 50;
         static String[] menuBorderSymbols = {"─","│","┌","┐","├","┤"};
     }
@@ -90,17 +90,21 @@ public class GameUtils {
             System.out.println( geometryBuilder( DynamicVariables.menuBorderSymbols[0],0, DynamicVariables.menuLength ) + "\n" + menuName + "\n" + geometryBuilder( DynamicVariables.menuBorderSymbols[0],0, DynamicVariables.menuLength ) );
         }
 
+
+        String maxMenyIndex = "";
         for (String option : options ){
 
             if ( option.equals( "" ) ) {
                 // prints no value if string is empty
             }else if ( options.length == 1 ){
                 System.out.println( option );
+                maxMenyIndex += option;
             }else{
                 System.out.println( counter + ".\t" + option );
                 counter++;
+                maxMenyIndex += option+"\n";
             }
         }
-        return tryCatchMenuInput( options.length );
+        return tryCatchMenuInput((int) maxMenyIndex.lines().count());
     }
 }
