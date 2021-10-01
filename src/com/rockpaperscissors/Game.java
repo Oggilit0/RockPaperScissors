@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 /**
  * All logical decision-making
  * @author Oskar
@@ -120,18 +119,34 @@ public class Game {
         System.exit( 0 );
     }
 
+    /**
+     * Returns the current match
+     * @return current Match object
+     */
     public Match getCurrentMatch() {
         return this.currentMatch;
     }
 
+    /**
+     * Return a list of stored players
+     * @return ArrayList of Player objects
+     */
     public ArrayList<Player> getAllPlayers() {
         return this.allPlayers;
     }
 
+    /**
+     * Input player to be stored locally
+     * @param currentPlayer player object to be stored locally
+     */
     public void setCurrentPlayer( Player currentPlayer ) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Get current active player
+     * @return current Player object
+     */
     public Player getCurrentPlayer() {
         return this.currentPlayer;
     }

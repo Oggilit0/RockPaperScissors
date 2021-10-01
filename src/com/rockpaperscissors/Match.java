@@ -3,7 +3,6 @@ package com.rockpaperscissors;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 /**
  * This is the Match class where we store ID and result of the match.
  * We also conclude the outcome

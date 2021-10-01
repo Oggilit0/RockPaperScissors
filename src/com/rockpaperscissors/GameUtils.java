@@ -130,7 +130,6 @@ public class GameUtils {
         }
         String matchHistoryBottomBorder = ( GameUtils.DynamicVariables.menuBorderSymbols[6]+GameUtils.geometryBuilder( GameUtils.DynamicVariables.menuBorderSymbols[0],0,borderLength )+GameUtils.DynamicVariables.menuBorderSymbols[7]+"\n" );
 
-
         return matchHistoryTopBorder + matchHistoryBottomBorder +"1.\tMain menu";
     }
 

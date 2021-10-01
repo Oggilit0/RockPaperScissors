@@ -35,7 +35,6 @@ public class MenuInterface {
             case 3 -> matchHistoryMenu();
             case 4 -> this.currentGame.gameOver();
         }
-
     }
 
     /**
