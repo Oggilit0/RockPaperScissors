@@ -44,30 +44,28 @@ public class Match {
         if ( this.currentPlayer.getPlayerOutcome().equals( this.currentOpponent.getOpponentOutcome() ) ){
             this.result = "Draw";
         } else{
-            switch( this.currentPlayer.getPlayerOutcome() ){
-                case "Rock":
+            switch (this.currentPlayer.getPlayerOutcome()) {
+                case "Rock" -> {
                     if( this.currentOpponent.getOpponentOutcome().equals( "Scissors" ) ){
                         this.result = "Won!";
                     }else{
                         this.result = "Lost";
                     }
-                    break;
-
-                case "Paper":
+                }
+                case "Paper" -> {
                     if( this.currentOpponent.getOpponentOutcome().equals( "Rock" ) ){
                         this.result = "Won!";
                     }else{
                         this.result = "Lost";
                     }
-                    break;
-
-                case "Scissors":
+                }
+                case "Scissors" -> {
                     if(this.currentOpponent.getOpponentOutcome().equals( "Paper" )){
                         this.result = "Won!";
                     }else{
                         this.result = "Lost";
                     }
-                    break;
+                }
             }
         }
         this.currentPlayer.setMatchHistory( this );

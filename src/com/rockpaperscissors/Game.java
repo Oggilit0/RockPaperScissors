@@ -1,7 +1,9 @@
 package com.rockpaperscissors;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -52,20 +54,20 @@ public class Game {
      * Generates set amount predetermined players with a random name from text file.
      * @param startingPlayerAmount input how many new players you want to start with
      */
-    // gör om så den inte använder scanner
     public void randomGeneratedPlayers( int startingPlayerAmount ){
-        ArrayList<String> rndPlayers = new ArrayList<>();
-        try {
-            Scanner s = new Scanner( new File( "playerNames.txt" ) );
-            while ( s.hasNext() ){
-                rndPlayers.add( s.nextLine() );
+
+        String filename = "playerNames.txt";
+
+        try{
+            List<String> rndPlayers = Files.readAllLines(Paths.get(filename));
+
+            for( int i = 0; i < startingPlayerAmount; i++ ){
+                int randNr = ( int ) ( Math.random() * rndPlayers.size() );
+                this.allPlayers.add( new Player( rndPlayers.get( randNr ) ) );
+                rndPlayers.remove( randNr );
             }
-        } catch ( Exception e ) {
-        }
-        for( int i = 0; i < startingPlayerAmount; i++ ){
-            int randNr = ( int ) ( Math.random() * rndPlayers.size() );
-            this.allPlayers.add( new Player( rndPlayers.get( randNr ) ) );
-            rndPlayers.remove( randNr );
+        }catch( Exception e ){
+            e.printStackTrace();
         }
     }
 

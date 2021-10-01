@@ -21,26 +21,21 @@ public class MenuInterface {
      */
     public void mainMenu(){
 
-        int menuChoice = GameUtils.menuBuilder( "Main menu", this.currentGame.getCurrentPlayer(), "New Game","Choose player","Match history" );
+        int menuChoice = GameUtils.menuBuilder( "Main menu", this.currentGame.getCurrentPlayer(), "New Game","Choose player","Match history","Exit game" );
 
-        switch( menuChoice ){
-            case 1:
+        switch (menuChoice) {
+            case 1 -> {
                 if( this.currentGame.getCurrentPlayer() == null ){
                     noPlayerSelectMenu();
                 }else{
                     this.currentGame.newMatch();
                 }
-                break;
-            case 2:
-                playerSelectionMenu();
-                break;
-            case 3:
-                matchHistoryMenu();
-                break;
-            case 4:
-                this.currentGame.gameOver();
-                break;
+            }
+            case 2 -> playerSelectionMenu();
+            case 3 -> matchHistoryMenu();
+            case 4 -> this.currentGame.gameOver();
         }
+
     }
 
     /**
@@ -53,11 +48,11 @@ public class MenuInterface {
 
         switch (menuChoice) {
             case 1 -> mainMenu();
-            case 2 -> {
+            case 2 -> playerSelectionMenu();
+            case 3 -> {
                 this.currentGame.createNewPlayer();
                 this.currentGame.newMatch();
             }
-            case 3 -> playerSelectionMenu();
         }
     }
 
