@@ -23,16 +23,10 @@ public class Opponent {
     public void RollOpponentOutcome(){
         int randNr = ( int ) ( Math.random() * 3 ) + 1;
 
-        switch( randNr ){
-            case 1:
-                this.opponentOutcome = "Rock";
-                break;
-            case 2:
-                this.opponentOutcome = "Paper";
-                break;
-            case 3:
-                this.opponentOutcome = "Scissors";
-                break;
+        switch (randNr) {
+            case 1 -> this.opponentOutcome = "Rock";
+            case 2 -> this.opponentOutcome = "Paper";
+            case 3 -> this.opponentOutcome = "Scissors";
         }
     }
 

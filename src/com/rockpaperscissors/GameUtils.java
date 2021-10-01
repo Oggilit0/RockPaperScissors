@@ -25,7 +25,7 @@ public class GameUtils {
      * @param maxCase get input from menu to know max amount of menu indexes to handle exceptions
      * @return int value to be handled in menus
      */
-    public static int tryCatchMenuInput(int maxCase ){
+    public static int tryCatchMenuInput( int maxCase ){
         int menuChoice = 0;
         System.out.print( "\nUser input: " );
         Scanner console = new Scanner( System.in );
@@ -49,7 +49,7 @@ public class GameUtils {
      * @param symbol The character you want to print out
      * @param offset Offset from left to right
      * @param length total length of desired part
-     * @return
+     * @return String containing parameters character with desired length
      */
     public static String geometryBuilder( String symbol, int offset,int length ){
         String geometry = "";
@@ -83,21 +83,21 @@ public class GameUtils {
             System.out.println( geometryBuilder( DynamicVariables.menuBorderSymbols[0],0, DynamicVariables.menuLength ) + "\n" + menuName + "\n" + geometryBuilder( DynamicVariables.menuBorderSymbols[0],0, DynamicVariables.menuLength ) );
         }
 
-        String maxMenyIndex = "";
+        String maxMenuIndex = "";
         for (String option : options ){
 
             if ( option.equals( "" ) ) {
                 // prints no value if string is empty
             }else if ( options.length == 1 ){
                 System.out.println( option );
-                maxMenyIndex += option;
+                maxMenuIndex += option;
             }else{
                 System.out.println( counter + ".\t" + option );
                 counter++;
-                maxMenyIndex += option+"\n";
+                maxMenuIndex += option+"\n";
             }
         }
-        return tryCatchMenuInput((int) maxMenyIndex.lines().count());
+        return tryCatchMenuInput( ( int ) maxMenuIndex.lines().count() );
     }
 
     /**
@@ -109,16 +109,18 @@ public class GameUtils {
 
         String matchHistoryTopBorder = "";
 
-        if(currentGame.getCurrentPlayer() == null || currentGame.getCurrentPlayer().getMatchHistory().isEmpty()){
+        if( currentGame.getCurrentPlayer() == null || currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
             return "1.\tMain menu";
         }
         int borderLength = GameUtils.DynamicVariables.menuLength-2;
 
         if( !currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
 
-            String matchHistoryTBPartOne = (GameUtils.DynamicVariables.menuBorderSymbols[2]) + GameUtils.geometryBuilder(GameUtils.DynamicVariables.menuBorderSymbols[0],0,borderLength)+ GameUtils.DynamicVariables.menuBorderSymbols[3] + "\n│ Match id ";
+            // Shortened the string to be more readable
+            String matchHistoryTBPartOne = ( GameUtils.DynamicVariables.menuBorderSymbols[2] ) + GameUtils.geometryBuilder(GameUtils.DynamicVariables.menuBorderSymbols[0],0,borderLength )+ GameUtils.DynamicVariables.menuBorderSymbols[3] + "\n│ Match id ";
             String matchHistoryTBPartTwo = GameUtils.geometryBuilder(" ", 0, GameUtils.DynamicVariables.menuLength-19);
             String matchHistoryTBPartThree = "Result "+ GameUtils.DynamicVariables.menuBorderSymbols[1]+ "\n" + GameUtils.DynamicVariables.menuBorderSymbols[4] +GameUtils.geometryBuilder(GameUtils.DynamicVariables.menuBorderSymbols[0],0,borderLength) + GameUtils.DynamicVariables.menuBorderSymbols[5];
+
             matchHistoryTopBorder = matchHistoryTBPartOne + matchHistoryTBPartTwo + matchHistoryTBPartThree;
 
             for( Match m : currentGame.getCurrentPlayer().getMatchHistory() ){
@@ -143,12 +145,12 @@ public class GameUtils {
         String[] space = new String[2];
         int opponentOffset = currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome().length() + currentGame.getCurrentMatch().getCurrentOpponent().getOpponentName().length() + 1;
         int playerOffset = currentGame.getCurrentMatch().getCurrentPlayer().getName().length() + currentGame.getCurrentPlayer().getPlayerOutcome().length() + 1;
-        int outcomeSpaceLength = ( GameUtils.DynamicVariables.menuLength / 2 ) - ( currentGame.getCurrentMatch().getResult().length() / 2 ) -1;
+        int outcomeSpaceLength = ( GameUtils.DynamicVariables.menuLength / 2 ) - ( currentGame.getCurrentMatch().getResult().length() / 2 ) - 1;
 
         space[0] = GameUtils.geometryBuilder( " ",opponentOffset, outcomeSpaceLength );
         space[1] = GameUtils.geometryBuilder( " ",playerOffset, outcomeSpaceLength );
 
-        String printOpponentOutcome ="Opponent: " + currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome()+space[0];
+        String printOpponentOutcome ="Opponent: " + currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome() + space[0];
         String printPlayerOutcome =  space [1] + currentGame.getCurrentPlayer().getPlayerOutcome() + " :";
 
         return printOpponentOutcome + currentGame.getCurrentMatch().getResult() + printPlayerOutcome;
@@ -158,14 +160,14 @@ public class GameUtils {
      * Method to take a dynamic list and add to the menu as menu indexes
      * @return String with player names and indexes
      */
-    public static String printPlayerListAsMenuIndex (Game currentGame){
+    public static String printPlayerListAsMenuIndex ( Game currentGame ){
         int playerSelectCounter = 0;
         String playerListBuilder = "";
         for( Player p : currentGame.getAllPlayers() ){
-            if(playerSelectCounter == 0){
-                playerListBuilder +=(p.getName()+"\n");
+            if( playerSelectCounter == 0 ){
+                playerListBuilder +=( p.getName()+"\n" );
             }else{
-                playerListBuilder +=( playerSelectCounter + 4 ) + ".\t" + p.getName()+"\n";
+                playerListBuilder +=( playerSelectCounter + 4 ) + ".\t" + p.getName() + "\n";
             }
             playerSelectCounter++;
         }

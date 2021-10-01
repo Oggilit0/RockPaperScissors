@@ -9,7 +9,7 @@ public class MenuInterface {
 
     /**
      * Constructor to add the current game program for access
-     * @param currentGame
+     * @param currentGame input game to access its variables
      */
     public MenuInterface(Game currentGame ){
         this.currentGame = currentGame;
@@ -21,7 +21,7 @@ public class MenuInterface {
      */
     public void mainMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("Main menu", this.currentGame.getCurrentPlayer(), "New Game","Choose player","Match history");
+        int menuChoice = GameUtils.menuBuilder( "Main menu", this.currentGame.getCurrentPlayer(), "New Game","Choose player","Match history" );
 
         switch( menuChoice ){
             case 1:
@@ -49,22 +49,15 @@ public class MenuInterface {
      */
     public void noPlayerSelectMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("No player selected", this.currentGame.getCurrentPlayer(), "Main menu","Choose existing player","Create new player");
+        int menuChoice = GameUtils.menuBuilder( "No player selected", this.currentGame.getCurrentPlayer(), "Main menu","Choose existing player","Create new player" );
 
-        switch ( menuChoice ){
-            case 1:
-                mainMenu();
-
-
-                break;
-            case 2:
+        switch (menuChoice) {
+            case 1 -> mainMenu();
+            case 2 -> {
                 this.currentGame.createNewPlayer();
                 this.currentGame.newMatch();
-                break;
-            case 3:
-                playerSelectionMenu();
-                this.currentGame.newMatch();//////////////// FIXA
-                break;
+            }
+            case 3 -> playerSelectionMenu();
         }
     }
 
@@ -74,18 +67,12 @@ public class MenuInterface {
      */
     public void playerChoiceMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("Rock, paper & Scissors", this.currentGame.getCurrentPlayer(), "Rock","Paper","Scissors");
+        int menuChoice = GameUtils.menuBuilder( "Rock, paper & Scissors", this.currentGame.getCurrentPlayer(), "Rock","Paper","Scissors" );
 
-        switch( menuChoice ){
-            case 1:
-                this.currentGame.getCurrentPlayer().setPlayerOutcome( "Rock" );
-                break;
-            case 2:
-                this.currentGame.getCurrentPlayer().setPlayerOutcome( "Paper" );
-                break;
-            case 3:
-                this.currentGame.getCurrentPlayer().setPlayerOutcome( "Scissors" );
-                break;
+        switch (menuChoice) {
+            case 1 -> this.currentGame.getCurrentPlayer().setPlayerOutcome("Rock");
+            case 2 -> this.currentGame.getCurrentPlayer().setPlayerOutcome("Paper");
+            case 3 -> this.currentGame.getCurrentPlayer().setPlayerOutcome("Scissors");
         }
     }
 
@@ -95,25 +82,20 @@ public class MenuInterface {
      */
     public void playerSelectionMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("Choose player", this.currentGame.getCurrentPlayer(),"Main menu","Create and choose new character",  "Delete player", GameUtils.printPlayerListAsMenuIndex(this.currentGame));
+        int menuChoice = GameUtils.menuBuilder( "Choose player", this.currentGame.getCurrentPlayer(),"Main menu","Create and choose new character",  "Delete player", GameUtils.printPlayerListAsMenuIndex( this.currentGame ) );
 
-        switch(menuChoice){
-            case 1:
-                mainMenu();
-                break;
-            case 2:
-                this.currentGame.createNewPlayer();
-                break;
-            case 3:
-                if(this.currentGame.getAllPlayers().size() == 0){
+        switch (menuChoice) {
+            case 1 -> mainMenu();
+            case 2 -> this.currentGame.createNewPlayer();
+            case 3 -> {
+                if (this.currentGame.getAllPlayers().size() == 0) {
                     playerSelectionMenu();
                 }
-                System.out.println( "Which player to remove?" );
+                System.out.println("Which player to remove?");
                 this.currentGame.deletePlayer(this.currentGame.getAllPlayers().size() + 3);
                 playerSelectionMenu();
-                break;
-            default:
-                this.currentGame.setCurrentPlayer(this.currentGame.getAllPlayers().get( menuChoice - 4 ));
+            }
+            default -> this.currentGame.setCurrentPlayer(this.currentGame.getAllPlayers().get(menuChoice - 4));
         }
         mainMenu();
     }
@@ -123,9 +105,9 @@ public class MenuInterface {
      */
     public void matchHistoryMenu(){
 
-        int menuChoice = GameUtils.menuBuilder("Match History", this.currentGame.getCurrentPlayer(), GameUtils.matchHistoryPrinter(currentGame));
+        int menuChoice = GameUtils.menuBuilder( "Match History", this.currentGame.getCurrentPlayer(), GameUtils.matchHistoryPrinter( currentGame ) );
 
-        if (menuChoice == 1) {
+        if ( menuChoice == 1 ) {
             mainMenu();
         }
     }
@@ -136,18 +118,12 @@ public class MenuInterface {
      */
     public void afterMatchMenu(){
 
-        int menuChoice = GameUtils.menuBuilder( GameUtils.afterMatchMenuScoreBorder(this.currentGame), this.currentGame.getCurrentPlayer(), "Main Menu","New Match","Quit" );
+        int menuChoice = GameUtils.menuBuilder( GameUtils.afterMatchMenuScoreBorder( this.currentGame ), this.currentGame.getCurrentPlayer(), "Main Menu","New Match","Quit" );
 
-        switch( menuChoice ){
-            case 1:
-                mainMenu();
-                break;
-            case 2:
-                this.currentGame.newMatch();
-                break;
-            case 3:
-                this.currentGame.gameOver();
-                break;
+        switch (menuChoice) {
+            case 1 -> mainMenu();
+            case 2 -> this.currentGame.newMatch();
+            case 3 -> this.currentGame.gameOver();
         }
     }
 }

@@ -1,19 +1,5 @@
 package com.rockpaperscissors;
 
-
-// this på allt också
-// Kolla om break behövs till varje switch
-// Fixa mellanrum ( )
-// debugga hela programmet
-// Kolla efter onödiga metoder, variablar, duplicates etc
-//Ändra ordning på menyer
-// Kolla så att kommentarer är konsistent : Tex Current active player = du som spelare,
-// Random oponent namn?
-// e.printStackTrace
-
-
-// Skapa player selection och lagring
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -55,7 +41,7 @@ public class Game {
      * Core method to call methods in subsequence to fulfill a game of Rock, paper & scissors
      */
     public void newMatch(){
-        this.currentMatch = new Match(this.currentPlayer,this.currentOpponent);
+        this.currentMatch = new Match( this.currentPlayer,this.currentOpponent );
         this.menuInterface.playerChoiceMenu();
         this.currentOpponent.RollOpponentOutcome();
         this.currentMatch.matchOutcome();
@@ -67,7 +53,7 @@ public class Game {
      * @param startingPlayerAmount input how many new players you want to start with
      */
     // gör om så den inte använder scanner
-    public void randomGeneratedPlayers(int startingPlayerAmount){
+    public void randomGeneratedPlayers( int startingPlayerAmount ){
         ArrayList<String> rndPlayers = new ArrayList<>();
         try {
             Scanner s = new Scanner( new File( "playerNames.txt" ) );
@@ -84,12 +70,12 @@ public class Game {
     }
 
     /**
-     * Custom character creation and adding it to playerbase
+     * Custom character creation and adding it to player list
      * Restricted name length to handle menu geometry easier.
      */
     public void createNewPlayer(){
         String playerName;
-        Scanner console = new Scanner(System.in);
+        Scanner console = new Scanner( System.in );
         do {
             System.out.print( "Name your character: " );
             playerName = console.nextLine();
@@ -106,24 +92,22 @@ public class Game {
      * @param playerIndexToRemove player index to be removed from arraylist
      */
     public void deletePlayer( int playerIndexToRemove ) {
-        int menuChoice = 0;
+        int menuChoice;
         do{
-            menuChoice = GameUtils.tryCatchMenuInput(playerIndexToRemove);
-            if(menuChoice < 4){
-                System.out.println("Invalid input");
+            menuChoice = GameUtils.tryCatchMenuInput( playerIndexToRemove );
+            if( menuChoice < 4 ){
+                System.out.println( "Invalid input" );
             }
-        }while(menuChoice < 4);
-        if (this.getCurrentPlayer() != null && this.getAllPlayers().get(menuChoice - 4).getName().equals(this.getCurrentPlayer().getName())) {
-        }else{
-            this.getAllPlayers().remove( menuChoice -4 );
-        }
+        }while( menuChoice < 4 );
+
+        this.getAllPlayers().remove( menuChoice -4 );
     }
 
     /**
      * Creates a new Opponent med a set name
      */
     public void createNewOpponent(){
-        this.currentOpponent = new Opponent("Opponent");
+        this.currentOpponent = new Opponent( "Opponent" );
     }
 
     /**
@@ -131,7 +115,7 @@ public class Game {
      */
     public void gameOver(){
         System.out.println( "GAME OVER" );
-        System.exit(0);
+        System.exit( 0 );
     }
 
     public Match getCurrentMatch() {
@@ -142,7 +126,7 @@ public class Game {
         return this.allPlayers;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
+    public void setCurrentPlayer( Player currentPlayer ) {
         this.currentPlayer = currentPlayer;
     }
 

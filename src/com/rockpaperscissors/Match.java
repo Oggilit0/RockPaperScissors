@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * This is the Match class where we store ID and result of the match.
- * We also concludes the outcome
+ * We also conclude the outcome
  * @author Oskar
  */
 
