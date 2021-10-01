@@ -21,23 +21,34 @@ import java.util.Scanner;
 
 
 /**
- * All logical decision-making and menu handling of the game.
- *
+ * All logical decision-making
  * @author Oskar
  */
 
 public class Game {
     private Match currentMatch;
     private Player currentPlayer;
+    private Opponent currentOpponent;
     private final ArrayList<Player> allPlayers;
     private final UserInterface currentInterface;
 
+    /**
+     * Constructor of the class Game.
+     * Initialize player list for storing all players within class.
+     * Initialize class handling menus.
+     * Randomly generates an opponent and set amount of players
+     *
+     */
     public Game(){
         this.allPlayers = new ArrayList<>();
         this.currentInterface = new UserInterface( this );
-        randomGeneratedPlayers();
+        randomGeneratedPlayers(GameUtils.DynamicVariables.playerAmount);
+        createNewOpponent();
     }
 
+    /**
+     * Run the Main menu
+     */
     public void startUp (){
         this.currentInterface.mainMenu();
     }
@@ -46,20 +57,19 @@ public class Game {
      * Core method to call methods in subsequence to fulfill a game of Rock, paper & scissors
      */
     public void newMatch(){
-        this.currentMatch = new Match( "n/a" );
-        this.currentMatch.createNewOpponent();
-        this.currentMatch.setCurrentPlayer( this.currentPlayer );
+        this.currentMatch = new Match(this.currentPlayer,this.currentOpponent);
         this.currentInterface.playerChoiceMenu();
-        this.currentMatch.OpponentOutcome();
-        this.currentMatch.outcome();
+        this.currentOpponent.RollOpponentOutcome();
+        this.currentMatch.matchOutcome();
         this.currentInterface.afterMatchMenu();
     }
 
     /**
-     * Generates 3 predetermined players with a random name from array.
+     * Generates set amount predetermined players with a random name from text file.
+     * @param startingPlayerAmount input how many new players you want to start with
      */
     // gör om så den inte använder scanner
-    public void randomGeneratedPlayers(){
+    public void randomGeneratedPlayers(int startingPlayerAmount){
         ArrayList<String> rndPlayers = new ArrayList<>();
         try {
             Scanner s = new Scanner( new File( "playerNames.txt" ) );
@@ -68,11 +78,18 @@ public class Game {
             }
         } catch ( Exception e ) {
         }
-        for( int i = 0; i < 3; i++ ){
+        for( int i = 0; i < startingPlayerAmount; i++ ){
             int randNr = ( int ) ( Math.random() * rndPlayers.size() );
             this.allPlayers.add( new Player( rndPlayers.get( randNr ) ) );
             rndPlayers.remove( randNr );
         }
+    }
+
+    /**
+     * Creates a new Opponent med a set name
+     */
+    public void createNewOpponent(){
+        this.currentOpponent = new Opponent("Opponent");
     }
 
     /**

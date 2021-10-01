@@ -1,6 +1,5 @@
 package com.rockpaperscissors;
 
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.Scanner;
 
@@ -100,6 +99,10 @@ public class UserInterface {
 
         int menuChoice = GameUtils.menuBuilder("Choose player", this.currentGame.getCurrentPlayer(),"Create and choose new character", "Return to main menu", "Delete player", printPlayerListAsMenuIndex());
 
+
+//        antal options = 4
+//                men options måste vara 3 + size
+
         switch(menuChoice){
             case 1:
                 createNewPlayer();
@@ -109,14 +112,15 @@ public class UserInterface {
                 break;
             case 3:
                 if(this.currentGame.getAllPlayers().size() == 0){
-                    System.out.println("Test");
+                    System.out.println("Test"); /// FIXA
                     playerSelectionMenu();
                 }
                 System.out.println( "Which player to remove?" );
-                deletePlayer(this.currentGame.getAllPlayers().size()+3);
+                deletePlayer(this.currentGame.getAllPlayers().size() + 3);
                 playerSelectionMenu();
                 break;
             default:
+                System.out.println(menuChoice);
                 this.currentGame.setCurrentPlayer(this.currentGame.getAllPlayers().get( menuChoice - 4 ));
         }
         mainMenu();
@@ -130,7 +134,7 @@ public class UserInterface {
 
                 playerListBuilder +=(p.getName()+"\n");
             }else{
-                playerListBuilder +=( playerSelectCounter+4 ) + ".\t" + p.getName()+"\n";
+                playerListBuilder +=( playerSelectCounter + 4 ) + ".\t" + p.getName()+"\n";
             }
             playerSelectCounter++;
         }
@@ -148,7 +152,7 @@ public class UserInterface {
             int menuChoice = 0;
 
             do{
-                menuChoice = GameUtils.tryCatchMenus(playerIndexToRemove);
+                menuChoice = GameUtils.tryCatchMenuInput(playerIndexToRemove);
                 if(menuChoice < 4){
                     System.out.println("Invalid input");
                 }
@@ -187,9 +191,11 @@ public class UserInterface {
         if(this.currentGame.getCurrentPlayer() == null){
             return "1.\tMain menu";
         }
+        int borderLength = GameUtils.DynamicVariables.menuLength-2;
+        int spaceLength = GameUtils.DynamicVariables.menuLength - 2;
 
         if( !this.currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
-            matchHistoryTopBorder = ( "┌"+GameUtils.geometryBuilder("─",0,48)+"┐\n" + "│ Match id " + GameUtils.geometryBuilder(" ", 0, 31) + "Result │\n" + "├" +GameUtils.geometryBuilder("─",0,48)+"┤" );
+            matchHistoryTopBorder = (GameUtils.DynamicVariables.menuBorderSymbols[2]) + GameUtils.geometryBuilder(GameUtils.DynamicVariables.menuBorderSymbols[0],0,borderLength)+ GameUtils.DynamicVariables.menuBorderSymbols[3] + "\n│ Match id " + GameUtils.geometryBuilder(" ", 0, 31) + "Result "+ GameUtils.DynamicVariables.menuBorderSymbols[1]+ "\n" + GameUtils.DynamicVariables.menuBorderSymbols[4] +GameUtils.geometryBuilder(GameUtils.DynamicVariables.menuBorderSymbols[0],0,borderLength) + GameUtils.DynamicVariables.menuBorderSymbols[5] ;
 
             if( !this.currentGame.getCurrentPlayer().getMatchHistory().isEmpty() ){
                 for( Match m : this.currentGame.getCurrentPlayer().getMatchHistory() ){
@@ -197,7 +203,7 @@ public class UserInterface {
                 }
                 matchHistoryTopBorder += "\n";
             }
-            matchHistoryBottomBorder = ( "└"+GameUtils.geometryBuilder("─",0,48)+"┘\n" );
+            matchHistoryBottomBorder = ( "└"+GameUtils.geometryBuilder( "─",0,48 )+"┘\n" );
         }
 
         return matchHistoryTopBorder + matchHistoryBottomBorder +"1.\tMain menu";
@@ -214,7 +220,7 @@ public class UserInterface {
             System.out.print( "Name your character: " );
             playerName = console.nextLine();
             if ( playerName.length() > 10 || playerName.length() < 2 ) {
-                System.out.println("Sorry, your name need to be 2-15 characters");
+                System.out.println("Sorry, your name need to be 2-10 characters");
             }
         }while ( playerName.length() > 10 || playerName.length() < 2 ) ;
         this.currentGame.getAllPlayers().add( new Player( playerName ) );
@@ -227,7 +233,7 @@ public class UserInterface {
      */
     public void afterMatchMenu(){
 
-        int menuChoice = GameUtils.menuBuilder(afterMatchMenuScoreBorder(), this.currentGame.getCurrentPlayer(), "Main Menu","New Match","Quit");
+        int menuChoice = GameUtils.menuBuilder( afterMatchMenuScoreBorder(), this.currentGame.getCurrentPlayer(), "Main Menu","New Match","Quit" );
 
         switch( menuChoice ){
             case 1:
@@ -242,18 +248,25 @@ public class UserInterface {
         }
     }
 
-
-
+    /**
+     * Method to create the scoreboard after match ended and integrate
+     * it to the current menu design.
+     * Displays opponents name, players name and result.
+     * @return opponent name, match result and player name in a string
+     */
     public String afterMatchMenuScoreBorder(){
+
         String[] space = new String[2];
-        space[0] = GameUtils.geometryBuilder(" ",( this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome().length() + 9 ),22 );
-        space[1] = GameUtils.geometryBuilder(" ",( ( this.currentGame.getCurrentPlayer().getName().length() + this.currentGame.getCurrentPlayer().getPlayerOutcome().length())),21 );
+        int opponentOffset = this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome().length() + this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentName().length() + 1;
+        int playerOffset = this.currentGame.getCurrentMatch().getCurrentPlayer().getName().length() + this.currentGame.getCurrentPlayer().getPlayerOutcome().length() + 1;
+        int outcomeSpaceLength = ( GameUtils.DynamicVariables.menuLength /2 ) - ( this.currentGame.getCurrentMatch().getResult().length()/2 )-1;
+
+        space[0] = GameUtils.geometryBuilder( " ",opponentOffset, outcomeSpaceLength );
+        space[1] = GameUtils.geometryBuilder( " ",playerOffset, outcomeSpaceLength );
 
         String printOpponentOutcome ="Opponent: " + this.currentGame.getCurrentMatch().getCurrentOpponent().getOpponentOutcome()+space[0];
         String printPlayerOutcome =  space [1] + this.currentGame.getCurrentPlayer().getPlayerOutcome() + " :";
 
         return printOpponentOutcome + this.currentGame.getCurrentMatch().getResult() + printPlayerOutcome;
     }
-
-
 }

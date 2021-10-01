@@ -5,68 +5,48 @@ import java.time.format.DateTimeFormatter;
 
 
 /**
- * This is the Match class where we store info and.
- * We also generates unique ID's to each Match object and
- * roll our opponent's outcome.
+ * This is the Match class where we store ID and result of the match..
+ * We also roll our opponent's outcome.
  * @author Oskar
  */
 
 public class Match {
     private String matchId;
     private String result;
-    private Player currentPlayer;
-    private Opponent currentOpponent;
+    private final Player currentPlayer;
+    private final Opponent currentOpponent;
 
     /**
-     * Constructor of the class Match
-     * @param result stores the outcome of match for later use
+     * Constructor of the Class Match, creates and store and ID for each match object
+     * @param currentPlayer Needs an active player
+     * @param currentOpponent Needs an active Opponent
      */
-    public Match( String result ){
-        this.result = result;
+    public Match( Player currentPlayer, Opponent currentOpponent ){
+        this.currentPlayer = currentPlayer;
+        this.currentOpponent = currentOpponent;
         matchId();
     }
 
     /**
      * Set matchId to current time as unique ID for each game
      */
-    // Calender kanske ?
     public void matchId(){
         LocalDateTime matchIdTime = LocalDateTime.now();
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern( "yy-MM-dd:HH.mm.ss" );
         this.matchId = matchIdTime.format( timeFormat );
     }
 
-
     /**
-     * Method to randomize Opponent outcome
+     * Handling outcome of each individual match and stores the result in current match object.
+     * Stores the match in active Player's match history.
      */
-    public void OpponentOutcome(){
-        int randNr = ( int ) ( Math.random() * 3 ) + 1;
-
-        switch( randNr ){
-            case 1:
-                this.currentOpponent.setOpponentOutcome( "Rock" );
-                break;
-            case 2:
-                this.currentOpponent.setOpponentOutcome( "Paper" );
-                break;
-            case 3:
-                this.currentOpponent.setOpponentOutcome( "Scissors" );
-                break;
-        }
-    }
-
-    /**
-     * Handling outcome of each individual match and stores the result in Match Class.
-     * The match and result is then stored separately in Player class for the current player.
-     */
-    public void outcome(){
-        if ( this.currentPlayer.getPlayerOutcome().equals( this.getCurrentOpponent().getOpponentOutcome() ) ){
+    public void matchOutcome(){
+        if ( this.currentPlayer.getPlayerOutcome().equals( this.currentOpponent.getOpponentOutcome() ) ){
             this.result = "Draw";
         } else{
             switch( this.currentPlayer.getPlayerOutcome() ){
                 case "Rock":
-                    if( this.getCurrentOpponent().getOpponentOutcome().equals( "Scissors" ) ){
+                    if( this.currentOpponent.getOpponentOutcome().equals( "Scissors" ) ){
                         this.result = "Won!";
                     }else{
                         this.result = "Lost";
@@ -74,7 +54,7 @@ public class Match {
                     break;
 
                 case "Paper":
-                    if( this.getCurrentOpponent().getOpponentOutcome().equals( "Rock" ) ){
+                    if( this.currentOpponent.getOpponentOutcome().equals( "Rock" ) ){
                         this.result = "Won!";
                     }else{
                         this.result = "Lost";
@@ -82,7 +62,7 @@ public class Match {
                     break;
 
                 case "Scissors":
-                    if(this.getCurrentOpponent().getOpponentOutcome().equals( "Paper" )){
+                    if(this.currentOpponent.getOpponentOutcome().equals( "Paper" )){
                         this.result = "Won!";
                     }else{
                         this.result = "Lost";
@@ -94,16 +74,17 @@ public class Match {
     }
 
     /**
-     * Creates a new opponent
+     * Return the match result
+     * @return result
      */
-    public void createNewOpponent(){
-        this.currentOpponent = new Opponent();
-    }
-
     public String getResult() {
         return this.result;
     }
 
+    /**
+     * Return the match ID
+     * @return matchId
+     */
     public String getMatchId() {
         return this.matchId;
     }
@@ -112,9 +93,8 @@ public class Match {
         return currentOpponent;
     }
 
-    public void setCurrentPlayer( Player currentPlayer ) {
-        this.currentPlayer = currentPlayer;
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
-
 }
 
