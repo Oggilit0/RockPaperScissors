@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 
 /**
- * This is the Match class where we store ID and result of the match..
- * We also roll our opponent's outcome.
+ * This is the Match class where we store ID and result of the match.
+ * We also concludes the outcome
  * @author Oskar
  */
 
@@ -17,7 +17,7 @@ public class Match {
     private final Opponent currentOpponent;
 
     /**
-     * Constructor of the Class Match, creates and store and ID for each match object
+     * Constructor of the Class Match, creates and store an ID for each match object
      * @param currentPlayer Needs an active player
      * @param currentOpponent Needs an active Opponent
      */
@@ -83,18 +83,26 @@ public class Match {
 
     /**
      * Return the match ID
-     * @return matchId
+     * @return matchId as a string
      */
     public String getMatchId() {
         return this.matchId;
     }
 
+    /**
+     * Return the opponent
+     * @return Opponent object
+     */
     public Opponent getCurrentOpponent() {
-        return currentOpponent;
+        return this.currentOpponent;
     }
 
+    /**
+     * Return the player
+     * @return Player object
+     */
     public Player getCurrentPlayer() {
-        return currentPlayer;
+        return this.currentPlayer;
     }
 }
 

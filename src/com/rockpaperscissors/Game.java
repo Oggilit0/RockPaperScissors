@@ -3,7 +3,6 @@ package com.rockpaperscissors;
 
 // this på allt också
 // Kolla om break behövs till varje switch
-// Fixa system outs på en linje
 // Fixa mellanrum ( )
 // debugga hela programmet
 // Kolla efter onödiga metoder, variablar, duplicates etc
@@ -24,13 +23,12 @@ import java.util.Scanner;
  * All logical decision-making
  * @author Oskar
  */
-
 public class Game {
     private Match currentMatch;
     private Player currentPlayer;
     private Opponent currentOpponent;
     private final ArrayList<Player> allPlayers;
-    private final UserInterface currentInterface;
+    private final MenuInterface menuInterface;
 
     /**
      * Constructor of the class Game.
@@ -41,7 +39,7 @@ public class Game {
      */
     public Game(){
         this.allPlayers = new ArrayList<>();
-        this.currentInterface = new UserInterface( this );
+        this.menuInterface = new MenuInterface( this );
         randomGeneratedPlayers(GameUtils.DynamicVariables.playerAmount);
         createNewOpponent();
     }
@@ -50,7 +48,7 @@ public class Game {
      * Run the Main menu
      */
     public void startUp (){
-        this.currentInterface.mainMenu();
+        this.menuInterface.mainMenu();
     }
 
     /**
@@ -58,10 +56,10 @@ public class Game {
      */
     public void newMatch(){
         this.currentMatch = new Match(this.currentPlayer,this.currentOpponent);
-        this.currentInterface.playerChoiceMenu();
+        this.menuInterface.playerChoiceMenu();
         this.currentOpponent.RollOpponentOutcome();
         this.currentMatch.matchOutcome();
-        this.currentInterface.afterMatchMenu();
+        this.menuInterface.afterMatchMenu();
     }
 
     /**
@@ -82,6 +80,42 @@ public class Game {
             int randNr = ( int ) ( Math.random() * rndPlayers.size() );
             this.allPlayers.add( new Player( rndPlayers.get( randNr ) ) );
             rndPlayers.remove( randNr );
+        }
+    }
+
+    /**
+     * Custom character creation and adding it to playerbase
+     * Restricted name length to handle menu geometry easier.
+     */
+    public void createNewPlayer(){
+        String playerName;
+        Scanner console = new Scanner(System.in);
+        do {
+            System.out.print( "Name your character: " );
+            playerName = console.nextLine();
+            if ( playerName.length() > 10 || playerName.length() < 2 ) {
+                System.out.println("Sorry, your name need to be 2-10 characters");
+            }
+        }while ( playerName.length() > 10 || playerName.length() < 2 ) ;
+        this.getAllPlayers().add( new Player( playerName ) );
+        this.setCurrentPlayer( this.getAllPlayers().get( this.getAllPlayers().size() - 1 ) );
+    }
+
+    /**
+     * Method to delete a player from the playerSelectionMenu.
+     * @param playerIndexToRemove player index to be removed from arraylist
+     */
+    public void deletePlayer( int playerIndexToRemove ) {
+        int menuChoice = 0;
+        do{
+            menuChoice = GameUtils.tryCatchMenuInput(playerIndexToRemove);
+            if(menuChoice < 4){
+                System.out.println("Invalid input");
+            }
+        }while(menuChoice < 4);
+        if (this.getCurrentPlayer() != null && this.getAllPlayers().get(menuChoice - 4).getName().equals(this.getCurrentPlayer().getName())) {
+        }else{
+            this.getAllPlayers().remove( menuChoice -4 );
         }
     }
 

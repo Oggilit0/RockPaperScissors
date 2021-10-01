@@ -1,18 +1,11 @@
 package com.rockpaperscissors;
 
-/*
- * Möjligtvis ändra namn på denna klass till Computer / ai eller nåt
- * Skapa fler opponents?
- * Human opponent?
- *
- */
-
 /**
  * Class for handling and storing the outcome of the opponent for each match
  * @author Oskar
  */
 public class Opponent {
-    private String opponentName;
+    private final String opponentName;
     private String opponentOutcome;
 
     /**
@@ -24,7 +17,7 @@ public class Opponent {
     }
 
     /**
-     * Randomize the opponent's outcome, choosing randomly, with
+     * Randomize the opponent's outcome, choosing randomly with
      * 1/3 probability, from rock, paper or scissors
      */
     public void RollOpponentOutcome(){
@@ -43,11 +36,19 @@ public class Opponent {
         }
     }
 
+    /**
+     * Returns the outcome of the Opponent
+     * @return Opponent object's outcome as a string
+     */
     public String getOpponentOutcome() {
         return this.opponentOutcome;
     }
 
+    /**
+     * Returns the name of the Opponent
+     * @return Opponent object's name as a string
+     */
     public String getOpponentName() {
-        return opponentName;
+        return this.opponentName;
     }
 }
